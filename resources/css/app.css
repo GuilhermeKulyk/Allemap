@@ -1,0 +1,175 @@
+/*
+#561C24
+- 1 - PRIMARIA
+rgb(18, 55, 42)
+
+#6D2932
+- 2 SEGUNDA DARK
+rgb(67, 104, 80)
+
+#C7B7A3
+ - 3
+rgb(173, 188, 159) TERCEIRA CLARA
+
+#E8D8C4
+ - 4 - PRIMARIA (CLARA)
+rgb(251, 250, 218)
+*/
+
+#app {
+    display: flex;
+    flex: 1;
+    flex-direction: column;   
+    min-height: 100vh;
+}
+
+body {
+    display:flex;
+}
+
+/* NAVBAR */
+#main-navbar {
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #12372A;
+    height: 4vh;
+}
+
+#sidemenu {
+    background-color: #ADBC9F; 
+    /*height: 95.6vh;*/
+    flex: 1;
+}
+
+/* Estilo padrão do item do menu */
+.nav-link-side {
+    transition: background-color 0.3s ease; /* Transição suave da cor de fundo */
+}
+
+/* Quando o mouse estiver sobre o item do menu */
+.nav-link-side:hover {
+    background-color: #436850; /* Cor de fundo ao passar o mouse */
+    color: #FBFADA!important; /* Cor do texto ao passar o mouse */
+}
+
+.nav-active-sidemenu {
+    background-color: #FBFADA !important;
+}
+
+.nav-link {
+    color: #FBFADA !important;
+}
+
+.nav-link-selected {
+    font-weight: bold !important;
+}
+
+#container {
+    background-color: #FBFADA;
+    height: 96vh !important;
+}   
+.container {
+    padding: 10px 10px 10px 40px;
+}
+
+/* side menu logo */
+
+.logo-side-menu-container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: flex-start; /* Alinha no topo */
+    height: 100px; /* Ajuste a altura conforme necessário */
+    padding-top: 20px; /* Ajuste o espaçamento superior conforme necessário */
+}
+
+.logo-side-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.logo-side-menu img {
+    max-width: 18%;
+    min-width: 18%;
+}
+
+/* BOOTSTRAP CLASSES*/
+
+/* CARDS */
+.card-header {
+    background-color: #ADBC9F !important;
+}
+
+/* NAV LINKS */ 
+.nav-link.active {
+    background-color: #12372A !important;
+    color: #FBFADA !important;
+}
+
+.nav-link-side {
+    color: #12372A !important; 
+} 
+
+/* BUTTOM */
+.btn-primary {
+    background-color: #12372A !important;
+    color: #FBFADA !important;
+}
+
+/* LOGIN PAGE */
+#login-page {
+    height: 96.27vh; /* Define a altura da página para ocupar a altura total da viewport */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+#login-form {
+    background-color: #FBFADA;
+    color: #12372A;
+}
+
+.card-body-login {
+    padding:45px 0px 45px 0px !important;
+}
+
+/* PER ROTE */
+.content-login {
+    background-color: #12372A;
+}
+
+#card-create-task {
+    margin-top: 100px;
+    background-color: #ADBC9F;
+}
+
+/* TASK FIND PAGE */
+.no-results-text {
+
+}
+
+/* TASK INDEX */
+/* Search field */
+.search-container {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente os itens */
+}
+
+.search-container input {
+    flex: 1; /* Ocupa todo o espaço disponível */
+    margin-right: 5px; /* Adiciona um espaço entre o campo de pesquisa e o botão */
+}
+
+#form-search {
+    padding-left: 0px !important;
+}
+
+.form-input {
+    box-sizing: border-box;
+}
+
+#main-navbar {
+
+}
