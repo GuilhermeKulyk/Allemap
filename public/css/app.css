@@ -16,11 +16,22 @@ rgb(173, 188, 159) TERCEIRA CLARA
 rgb(251, 250, 218)
 */
 
+html {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden; /* Oculta a rolagem horizontal */
+    overflow-y: auto; /* Habilita a rolagem vertical conforme necessário */
+}
+
 #app {
-    display: flex;
-    flex: 1;
-    flex-direction: column;   
-    min-height: 100vh;
+    width: 100%;
+}
+
+#content {
+    min-width: 86.7vw;
+    max-width: 88vw;
+    height: 100vh;
+    
 }
 
 body {
@@ -37,8 +48,9 @@ body {
 
 #sidemenu {
     background-color: #ADBC9F; 
-    /*height: 95.6vh;*/
-    flex: 1;
+    max-width: 12vw;
+    min-width: 200px;
+    padding :30px !important;
 }
 
 /* Estilo padrão do item do menu */
@@ -66,19 +78,18 @@ body {
 
 #container {
     background-color: #FBFADA;
-    height: 96vh !important;
+    height: 100vh !important;
 }   
 .container {
     padding: 10px 10px 10px 40px;
 }
 
 /* side menu logo */
-
 .logo-side-menu-container {
     display: flex;
     justify-content: center; /* Centraliza horizontalmente */
     align-items: flex-start; /* Alinha no topo */
-    height: 100px; /* Ajuste a altura conforme necessário */
+    height: 120px; /* Ajuste a altura conforme necessário */
     padding-top: 20px; /* Ajuste o espaçamento superior conforme necessário */
 }
 
@@ -91,8 +102,7 @@ body {
 }
 
 .logo-side-menu img {
-    max-width: 18%;
-    min-width: 18%;
+    width: 75px;
 }
 
 /* BOOTSTRAP CLASSES*/
@@ -136,18 +146,13 @@ body {
 }
 
 /* PER ROTE */
-.content-login {
+.content-login, .content-register, .content-password-request, .content-password-request {
     background-color: #12372A;
 }
 
 #card-create-task {
     margin-top: 100px;
     background-color: #ADBC9F;
-}
-
-/* TASK FIND PAGE */
-.no-results-text {
-
 }
 
 /* TASK INDEX */
@@ -172,4 +177,29 @@ body {
 
 #main-navbar {
 
+}
+
+/* genericas  */
+.margin-auto {
+    margin:auto;
+}
+.d-flex {
+    display:flex;
+}
+
+.margin-top30 {
+    margin-top: 30px;
+}
+
+.margin-top250 {
+    margin-top: 250px;
+}
+
+/* login page */ 
+.link-login-recover-pass {
+    text-align: end;
+}
+
+.btn-login-container {
+    display: flex;
 }

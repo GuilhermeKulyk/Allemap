@@ -20,4 +20,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('ingrediente', 'App\Http\Controllers\IngredientController')
+->middleware('auth');
+
+Route::resource('alimento', 'App\Http\Controllers\FoodController')
+->middleware('auth');
+
+Route::resource('refeicao', 'App\Http\Controllers\RefeicaoController')
+->middleware('auth');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
