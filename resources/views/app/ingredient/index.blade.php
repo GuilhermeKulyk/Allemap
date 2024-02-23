@@ -1,23 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@component('app.ingredient._components.topmenu')
+@endcomponent
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-header">{{ __('Ingredientes') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('Lista de ingredientes!') }}
-                </div>
-            </div>
-        </div>
+    <div class="row justify-content-center w-100">
+        
     </div>
 </div>
 @endsection

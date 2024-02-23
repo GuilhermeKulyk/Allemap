@@ -20,13 +20,21 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('ingrediente', 'App\Http\Controllers\IngredientController')
+Route::prefix('ingredient-category')->group(function () {
+    Route::get('/index', [App\Http\Controllers\IngredientCategoryController::class, 'index'])->name('ingredient-category.index');
+    Route::get('/create', [App\Http\Controllers\IngredientCategoryController::class, 'create'])->name('ingredient-category.create');
+    Route::post('/store', [App\Http\Controllers\IngredientCategoryController::class, 'store'])->name('ingredient-category.store');
+    Route::get('/list', [App\Http\Controllers\IngredientCategoryController::class, 'list'])->name('ingredient-category.list');
+});
+
+
+Route::resource('ingredient', 'App\Http\Controllers\IngredientController')
 ->middleware('auth');
 
-Route::resource('alimento', 'App\Http\Controllers\FoodController')
+Route::resource('food', 'App\Http\Controllers\FoodController')
 ->middleware('auth');
 
-Route::resource('refeicao', 'App\Http\Controllers\RefeicaoController')
+Route::resource('meal', 'App\Http\Controllers\MealController')
 ->middleware('auth');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

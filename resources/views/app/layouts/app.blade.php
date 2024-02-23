@@ -32,17 +32,18 @@
             <!-- nav lateral aqui -->
             <div class="container-{{ Route::currentRouteName() }}">
                 <div id="container" class="container-fluid">
-                    <div class="row d-flex flex-wrap">
+                    <div class="row">
                         
                     @component('layouts._components.menu.side')
                     @endcomponent
                         
-                        <div class='col no-pad'>
+                        <div class='col-md-9 no-pad'>
             @endauth
                 <!-- Main content -->
                 <!-- if is login page, full size -->
-                                <main id="content" class="content-{{ str_replace(".", "-", Route::current()->getName()) }}">
-                                
+                            <main id="content" class="content-{{ str_replace(".", "-", Route::current()->getName()) }}">
+                                @component('layouts._components.menu.object')
+                                @endcomponent
                                 @yield('content')
                                 </main>
                             </div>        

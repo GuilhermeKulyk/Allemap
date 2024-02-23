@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\IngredientCategory;
+use App\Models\Ingredient;
 
-class IngredientController extends Controller
+class IngredientCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('app.ingredient.index');
+        return view('app.ingredient-category.index');
     }
 
     /**
@@ -19,7 +21,7 @@ class IngredientController extends Controller
      */
     public function create()
     {
-        return view('app.ingredient.create');
+        return view('app.ingredient-category.create');
     }
 
     /**
@@ -27,7 +29,20 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new IngredientCategory();
+        $category->create($request->all());
+
+        return view('ingredient-category.store');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function list()
+    {
+        $categories = new IngredientCategory();
+        //$categories->where('')
+        //dd($list);
     }
 
     /**

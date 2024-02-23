@@ -1,18 +1,14 @@
 /*
-#561C24
-- 1 - PRIMARIA
+#12372A - PRINCIPAL
 rgb(18, 55, 42)
 
-#6D2932
-- 2 SEGUNDA DARK
+#436850 - SECUNDARIA
 rgb(67, 104, 80)
 
-#C7B7A3
- - 3
-rgb(173, 188, 159) TERCEIRA CLARA
+#ADBC9F - PRINCIPAL CLARA
+rgb(173, 188, 159)
 
-#E8D8C4
- - 4 - PRIMARIA (CLARA)
+#FBFADA - SEGUNDARIA CLARA
 rgb(251, 250, 218)
 */
 
@@ -28,10 +24,9 @@ html {
 }
 
 #content {
-    min-width: 86.7vw;
-    max-width: 88vw;
+    /*min-width: 86.7vw; */
+    /*max-width: 88vw;*/
     height: 100vh;
-    
 }
 
 body {
@@ -51,6 +46,19 @@ body {
     max-width: 12vw;
     min-width: 200px;
     padding :30px !important;
+}
+
+/* NAVBAR OBJECT */
+.navbar-object {
+    background-color: #436850;
+}
+
+.nav-action-link {
+    color: #FBFADA !important;
+}
+
+.nav-action-link-active {
+    font-weight: bold !important;
 }
 
 /* Estilo padrão do item do menu */
@@ -80,8 +88,9 @@ body {
     background-color: #FBFADA;
     height: 100vh !important;
 }   
+
 .container {
-    padding: 10px 10px 10px 40px;
+    padding: 15px 25px 15px 25px !important;
 }
 
 /* side menu logo */
@@ -180,11 +189,19 @@ body {
 }
 
 /* genericas  */
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
 .margin-auto {
     margin:auto;
 }
 .d-flex {
     display:flex;
+}
+
+.no-pad {
+    padding: 0px 0px 0px 0px !important;
 }
 
 .margin-top30 {
@@ -202,4 +219,33 @@ body {
 
 .btn-login-container {
     display: flex;
+}
+
+/* TASK INDEX */
+/* Search field */
+.search-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+.search-container input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.search-container button {
+    flex-shrink: 0; /* Evita que o botão encolha demais em resoluções menores */
+}
+
+.col-md-9.no-pad {
+    display: flex; /* Torna a div pai um contêiner flexível */
+    flex-wrap: wrap; /* Permite que os elementos filhos quebrem para a próxima linha conforme necessário */
+}
+
+.col-md-9.no-pad > * {
+    flex: 1 1 auto; /* Define os elementos filhos para que cresçam e encolham conforme necessário, mas mantenham sua largura máxima igual ao tamanho do contêiner pai */
+    max-width: 100%; /* Define a largura máxima dos elementos filhos igual à largura do contêiner pai */
+    box-sizing: border-box; /* Garante que a largura dos elementos filhos inclua padding e bordas */
 }
