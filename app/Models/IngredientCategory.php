@@ -9,5 +9,5 @@ class IngredientCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_name', 'description'];
+    protected $fillable = ['category_name', 'description', 'user_id'];
 }

@@ -184,8 +184,8 @@ body {
     box-sizing: border-box;
 }
 
-#main-navbar {
-
+.bold {
+    font-weight: bold !important;
 }
 
 /* genericas  */
@@ -199,6 +199,8 @@ body {
 .d-flex {
     display:flex;
 }
+
+
 
 .no-pad {
     padding: 0px 0px 0px 0px !important;

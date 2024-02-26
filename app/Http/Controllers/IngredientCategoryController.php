@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\IngredientCategory;
-use App\Models\Ingredient;
+use Illuminate\Support\Facades\DB;
+
 
 class IngredientCategoryController extends Controller
 {
@@ -12,9 +14,27 @@ class IngredientCategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('app.ingredient-category.index');
+    {        
+        // get categories
+        $results = DB::table('ingredient_categories')
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('category_name')
+            ->get()
+            ->toArray(); 
+            
+            //dd($results);
+
+        if (isset($results)) 
+        {
+            return view('app.ingredient-category.index',  compact('results'));
+        } 
+        else 
+        {
+            return view('app.ingredient-category.index');
+        } 
     }
+
+    // lge -  
 
     /**
      * Show the form for creating a new resource.
@@ -30,9 +50,13 @@ class IngredientCategoryController extends Controller
     public function store(Request $request)
     {
         $category = new IngredientCategory();
-        $category->create($request->all());
+        $category->category_name = $request->get('category_name');
+        $category->description = $request->get('description');
+        $category->user_id = Auth::user()->id;
 
-        return view('ingredient-category.store');
+        $category->create($category->attributesToArray());
+
+        return view('app.ingredient-category.index');
     }
 
     /**
@@ -76,4 +100,10 @@ class IngredientCategoryController extends Controller
     {
         //
     }
+
+    // Aux functions
+    /**
+     * Convert the column header name
+     */
+
 }

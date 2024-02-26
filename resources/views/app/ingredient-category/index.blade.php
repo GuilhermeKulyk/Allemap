@@ -11,9 +11,21 @@
         <div class="col-md-9 flex-grow-1">
             @component('layouts._components.search-bar')
             @endcomponent
-            @component('layouts._components.list')
-            @endcomponent
-        </div>
+                @php 
+                if (!isset($results)) 
+                {
+                    $results = [];
+                }
+                @endphp
+                
+                @component('layouts._components.list', [
+                    'title' =>  __('messages.name'),
+                    'data' => $results
+                ])
+
+                @endcomponent
+            </div>
     </div>
 </div>
 @endsection
+
