@@ -11,17 +11,18 @@
                             <div class="col-2"></div>
                         </div>
                     </li>
+                   
                     <!-- Linhas da tabela -->
-                    @foreach ($data as $category)
+                    @foreach ($data as $ingredientCategory)
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col">{{ $category->category_name }}</div>
+                                <div class="col">{{ $ingredientCategory->category_name }}</div>
                                 <!-- Colunas de edição e exclusão -->
                                 <div class="col-1 text-right">
-                                    <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                                    <a href="{{ route('ingredient-category.edit', ['ingredientCategory' => $ingredientCategory->id ]) }}"><button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button></a>
                                 </div>
                                 <div class="col-1 text-right">
-                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                   <a href="{{ route('ingredient-category.index') }}"> <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></a>
                                 </div>
                             </div>
                         </li>

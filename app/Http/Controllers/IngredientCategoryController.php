@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\IngredientCategory;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\QueryException;
 
 class IngredientCategoryController extends Controller
 {
@@ -21,8 +21,6 @@ class IngredientCategoryController extends Controller
             ->orderBy('category_name')
             ->get()
             ->toArray(); 
-            
-            //dd($results);
 
         if (isset($results)) 
         {
@@ -56,7 +54,7 @@ class IngredientCategoryController extends Controller
 
         $category->create($category->attributesToArray());
 
-        return view('app.ingredient-category.index');
+        return redirect('app.ingredient-category.index');
     }
 
     /**
@@ -70,27 +68,59 @@ class IngredientCategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(IngredientCategory $ingredientCategory)
     {
-        //
+        $ingredientCategory = IngredientCategory::find($ingredientCategory->id);
+
+        return view('app.ingredient-category.edit', ['ingredientCategory' => $ingredientCategory]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, IngredientCategory $ingredientCategory, int $id)
     {
-        //
+        $rules = [
+            'category_name' => 'required|min:3|max:25',
+            'description' => 'min:3|max:2000',
+        ];
+
+        $feedback = [
+            'required' => __("messages.validation.feedback.required"),
+            /*'unique' => __("messages.validation.feedback.category_name.unique"), */
+            'category_name.min' => __("messages.validation.feedback.category_name.min"),
+            'category_name.max' => __("messages.validation.feedback.category_name.max"),
+            'description.min' => __("messages.validation.feedback.description.min"),
+            'description.max' => __("messages.validation.feedback.description.max")
+        ];
+       
+        $request->validate($rules, $feedback);
+
+        $ingredientCategory->category_name = $request->get('category_name');
+        $ingredientCategory->description = $request->get('description');
+        $ingredientCategory->user_id = Auth::user()->id;
+
+        // pegando da url - gambiarra nervoza =) - deixa baixo
+        //= str_replace("/edit","", (str_replace('http://127.0.0.1:8000/ingredient-category/', "", url()->previous())));
+
+        try 
+        {
+            $ingredientCategory->where('user_id', Auth::user()->id)
+            ->whereId($id)
+            ->update([
+                'category_name' => $ingredientCategory->category_name,
+                'description'   => $ingredientCategory->description
+            ]);
+        }
+
+        catch (\Illuminate\Database\QueryException $e) 
+        {
+            dd($e->getMessage());
+        }
+
+        return redirect()->route('ingredient-category.index');
     }
 
     /**

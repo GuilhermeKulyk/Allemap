@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,12 +22,25 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::prefix('ingredient-category')->group(function () {
-    Route::get('/index', [App\Http\Controllers\IngredientCategoryController::class, 'index'])->name('ingredient-category.index');
-    Route::get('/create', [App\Http\Controllers\IngredientCategoryController::class, 'create'])->name('ingredient-category.create');
-    Route::post('/store', [App\Http\Controllers\IngredientCategoryController::class, 'store'])->name('ingredient-category.store');
-    Route::get('/list', [App\Http\Controllers\IngredientCategoryController::class, 'list'])->name('ingredient-category.list');
-});
+    Route::get('/index', [App\Http\Controllers\IngredientCategoryController::class, 'index'])
+    ->name('ingredient-category.index');
 
+    Route::get('/create', [App\Http\Controllers\IngredientCategoryController::class, 'create'])
+    ->name('ingredient-category.create');
+
+    Route::post('/store', [App\Http\Controllers\IngredientCategoryController::class, 'store'])
+    ->name('ingredient-category.store');
+
+    Route::get('/list', [App\Http\Controllers\IngredientCategoryController::class, 'list'])
+    ->name('ingredient-category.list');
+
+    Route::get('/{ingredientCategory}/edit', [App\Http\Controllers\IngredientCategoryController::class, 'edit'])
+    ->name('ingredient-category.edit');
+
+    Route::post('/{id}/update', [App\Http\Controllers\IngredientCategoryController::class, 'update'])
+    ->name('ingredient-category.update');
+
+})->middleware('auth');
 
 Route::resource('ingredient', 'App\Http\Controllers\IngredientController')
 ->middleware('auth');
