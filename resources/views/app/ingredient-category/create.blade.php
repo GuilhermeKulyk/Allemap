@@ -21,21 +21,21 @@
                     <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('ingredient-category.store')  }}" method='post' >
                         @csrf
                         <div class="form-input mb-3">   
-                            <label class="form-label">Nome</label>
+                            <label class="form-label">{{__('messages.words.name')}}</label>
                             <input type="text" class="form-control" name="category_name">
                         </div>
                         <div class="form-input mb-3">
                             <div class='row'>
                                 <div class='col'>
                                     <div class="form-input mb-3">   
-                                        <label class="form-label">Descrição</label>
+                                        <label class="form-label">{{__('messages.description')}}</label>
                                         <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-input mb-3">   
-                            <button type="submit" class="btn btn-primary form-control" class="category">Cadastrar</button>
+                            <button type="submit" class="btn btn-primary form-control" class="category">{{__('messages.words.register')}}</button>
                         </div>
                     </form>
                 </div>

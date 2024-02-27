@@ -47,6 +47,21 @@ class IngredientCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'category_name' => 'required|min:3|max:25',
+            'description' => 'max:2000',
+        ];
+
+        $feedback = [
+            'required'          => __("messages.validation.feedback.required"),
+            'unique'            => __("messages.validation.feedback.category_name.unique"), 
+            'category_name.min' => __("messages.validation.feedback.category_name.min"),
+            'category_name.max' => __("messages.validation.feedback.category_name.max"),
+            'description.max'   => __("messages.validation.feedback.description.max")
+        ];
+       
+        $request->validate($rules, $feedback);
+
         $category = new IngredientCategory();
         $category->category_name = $request->get('category_name');
         $category->description = $request->get('description');
@@ -54,17 +69,7 @@ class IngredientCategoryController extends Controller
 
         $category->create($category->attributesToArray());
 
-        return redirect('app.ingredient-category.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function list()
-    {
-        $categories = new IngredientCategory();
-        //$categories->where('')
-        //dd($list);
+        return redirect()->route('ingredient-category.index');
     }
 
     /**
@@ -74,7 +79,15 @@ class IngredientCategoryController extends Controller
     {
         $ingredientCategory = IngredientCategory::find($ingredientCategory->id);
 
-        return view('app.ingredient-category.edit', ['ingredientCategory' => $ingredientCategory]);
+        // check if this category was created by the user, otherwise redirects to the previous page
+        if ($ingredientCategory->user_id == Auth::user()->id) 
+        {
+            return view('app.ingredient-category.edit', ['ingredientCategory' => $ingredientCategory]);
+        }
+        else
+        {
+            redirect(url()->previous());
+        }
     }
 
     /**
@@ -84,16 +97,15 @@ class IngredientCategoryController extends Controller
     {
         $rules = [
             'category_name' => 'required|min:3|max:25',
-            'description' => 'min:3|max:2000',
+            'description' => 'max:2000'
         ];
 
         $feedback = [
-            'required' => __("messages.validation.feedback.required"),
-            /*'unique' => __("messages.validation.feedback.category_name.unique"), */
+            'required'          => __("messages.validation.feedback.required"),
+            /*'unique'          => __("messages.validation.feedback.category_name.unique"), */
             'category_name.min' => __("messages.validation.feedback.category_name.min"),
             'category_name.max' => __("messages.validation.feedback.category_name.max"),
-            'description.min' => __("messages.validation.feedback.description.min"),
-            'description.max' => __("messages.validation.feedback.description.max")
+            'description.max'   => __("messages.validation.feedback.description.max")
         ];
        
         $request->validate($rules, $feedback);
@@ -102,7 +114,7 @@ class IngredientCategoryController extends Controller
         $ingredientCategory->description = $request->get('description');
         $ingredientCategory->user_id = Auth::user()->id;
 
-        // pegando da url - gambiarra nervoza =) - deixa baixo
+        // pegando da url - gambiarra nervoza =) - deixa baixo bora passar via url no update?
         //= str_replace("/edit","", (str_replace('http://127.0.0.1:8000/ingredient-category/', "", url()->previous())));
 
         try 
@@ -117,23 +129,20 @@ class IngredientCategoryController extends Controller
 
         catch (\Illuminate\Database\QueryException $e) 
         {
-            dd($e->getMessage());
+            $errors['DB-error'] = ($e->getMessage());
         }
 
         return redirect()->route('ingredient-category.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage
+     * @param  \App\IngredientCategory $IngredientCategory
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroy(IngredientCategory $ingredientCategory)
     {
-        //
+        $ingredientCategory->delete();
+        return redirect()->route('ingredient-category.index');
     }
-
-    // Aux functions
-    /**
-     * Convert the column header name
-     */
-
 }

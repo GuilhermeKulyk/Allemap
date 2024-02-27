@@ -23,7 +23,7 @@
                         <div class="form-input mb-3">
                             <div class='row'>
                                 <div class='col'>
-                                    <div class="form-input mb-3">   
+                                    <div class="form-input mb-3" method='post'>   
                                         <label class="form-label">{{ __('messages.description') }}</label>
                                         <textarea class="form-control" name="description" rows="3">{{$ingredientCategory->description ?? old('description')}}</textarea>
                                         {{ $errors->has('description') ? $errors->first('description') : '' }}
