@@ -7,7 +7,7 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a href="{{ route('home') }}" class="nav-link nav-link-side {{ request()->is('home') ? 'active' : '' }}" aria-current="page">
-        Início
+        Home
       </a>
     </li>
     <li>

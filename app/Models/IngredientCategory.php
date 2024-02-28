@@ -10,4 +10,8 @@ class IngredientCategory extends Model
     use HasFactory;
 
     protected $fillable = ['category_name', 'description', 'user_id'];
+
+    public function ingredient() {
+        return $this->belongsTo('App/Models/IngredientCategory');
+    }
 }

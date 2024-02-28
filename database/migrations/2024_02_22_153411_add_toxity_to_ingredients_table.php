@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('ingredients', function (Blueprint $table) {
-            $table->integer('toxity');
+            $table->integer('toxicity');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('ingredients', function (Blueprint $table) {
-            $table->dropColumn('toxity');
+            $table->dropColumn('toxicity');
         });
     }
 };

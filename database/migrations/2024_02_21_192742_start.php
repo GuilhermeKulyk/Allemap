@@ -32,6 +32,11 @@ return new class extends Migration
             $table->string('category_name');
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade'); // Defina a ação para 'cascade' se desejar que as categorias sejam excluídas quando um usuário for excluído.
         });
 
         Schema::create('meals', function (Blueprint $table) {
