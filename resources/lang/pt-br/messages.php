@@ -10,6 +10,8 @@ return [
     'words.register' => 'Cadastrar',
     'words.edit' => 'Editar',
     'words.save' => 'Salvar',
+    'words.add'  => 'Adicionar',
+    'words.search'  => 'Buscar',
 
     /* App stuff */
     'ingredient' => 'Ingrediente',
@@ -32,4 +34,7 @@ return [
     'validation.feedback.category_name.max' => 'O campo deve ter no máximo 25 caracteres',
     'validation.feedback.description.min' => 'O campo descrição deve ter no mínimo 3 caracteres',
     'validation.feedback.description.max' => 'O campo descrição deve ter no máximo 2000 caracteres',
+
+    /* Placeholders */
+    'search_category' => 'Buscar',
 ];

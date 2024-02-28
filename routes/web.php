@@ -39,6 +39,10 @@ Route::prefix('ingredient-category')->group(function () {
 
     Route::delete('/{ingredientCategory}/delete', [App\Http\Controllers\IngredientCategoryController::class, 'destroy'])
     ->name('ingredient-category.delete');
+
+    Route::post('/search', [App\Http\Controllers\IngredientCategoryController::class, 'search'])
+    ->name('ingredient-category.search');
+
 })->middleware('auth');
 
 Route::resource('ingredient', 'App\Http\Controllers\IngredientController')

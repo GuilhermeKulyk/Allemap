@@ -145,4 +145,26 @@ class IngredientCategoryController extends Controller
         $ingredientCategory->delete();
         return redirect()->route('ingredient-category.index');
     }
+
+    /**
+     * Remove the specified resource from storage
+     * @param  \App\IngredientCategory $IngredientCategory
+     * @param string $search
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request, IngredientCategory $ingredientCategory)
+    {   
+        $search = $request->get('search');
+        $results = $ingredientCategory->where('category_name', 'LIKE', '%' . $search . '%')->get();
+    
+        
+        if (isset($results)) 
+        {
+            return view('app.ingredient-category.index',  compact('results'));
+        } 
+        else
+        {
+            return view('app.ingredient-category.index');
+        } 
+    }
 }
