@@ -9,7 +9,7 @@ class Ingredient extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome'];
+    protected $fillable = ['user_id', 'category_id', 'name', 'toxicity'];
 
     public function ingredientCategory() {
         return $this->hasOne('App\Models\IngredientCategory');

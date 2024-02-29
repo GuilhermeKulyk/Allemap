@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- TASK DIVING --> 
 <html lang="pr-br">
 <head>
     <meta charset="utf-8">

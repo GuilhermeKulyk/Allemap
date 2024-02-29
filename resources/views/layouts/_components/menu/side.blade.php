@@ -7,7 +7,7 @@
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
       <a href="{{ route('home') }}" class="nav-link nav-link-side {{ request()->is('home') ? 'active' : '' }}" aria-current="page">
-        Home
+        {{__('messages.sidemenu.home')}}
       </a>
     </li>
     <li>
@@ -35,13 +35,6 @@
   <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Action
   </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">Separated link</a>
-  </div>
-</div>
+
   </ul>
 </div>

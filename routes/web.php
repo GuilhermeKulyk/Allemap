@@ -43,7 +43,7 @@ Route::prefix('ingredient-category')->group(function () {
     Route::post('/search', [App\Http\Controllers\IngredientCategoryController::class, 'search'])
     ->name('ingredient-category.search');
 
-})->middleware('auth');
+}); //->middleware('auth');
 
 Route::resource('ingredient', 'App\Http\Controllers\IngredientController')
 ->middleware('auth');

@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row aba">
     <div class="col mx-auto">
-        <div class="small fw-light">{{__("messages.ingredient_categories")}}</div>
+        
         <form action="{{$route}}" method='post'>
             @csrf
             <div class="input-group">
