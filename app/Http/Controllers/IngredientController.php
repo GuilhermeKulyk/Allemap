@@ -105,7 +105,7 @@ class IngredientController extends Controller
         $feedback = [
             'required'               => __("messages.validation.feedback.required"),
             'name.unique'            => __("messages.validation.feedback.name.unique"), 
-            'max'               => __("messages.validation.feedback.name.max"),
+            'max'                    => __("messages.validation.feedback.name.max"),
             'name.min'               => __("messages.validation.feedback.name.min"),
             'toxicity.min'           => __("messages.validation.feedback.toxicity.min"),
             'toxicity.max'           => __("messages.validation.feedback.toxicity.max"),   
@@ -127,7 +127,7 @@ class IngredientController extends Controller
 
         } catch (\Illuminate\Database\QueryException $e) {
             $errors['DB-error'] = ($e->getMessage());
-            dd($errors['DB-error']);
+            echo $errors['DB-error'];
         }
 
         return redirect()->route('ingredient.index')->with('success', 'Ingredient updated successfully');

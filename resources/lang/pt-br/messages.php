@@ -1,5 +1,4 @@
 <?php
-
 return [
     'welcome' => 'Seja bem vindo!',
     'about' => 'Sobre nós',
@@ -24,6 +23,11 @@ return [
     'ingredient_category'    => 'Categoria de ingredientes',
     'ingredient_categories'  => 'Categorias de ingredientes',
     'register_ingredient'    => 'Cadastrar ingrediente',
+    'register_food_category' => 'Cadastrar categoria de alimento',
+    'edit_food_category'     => 'Editar categoria de alimento',
+    'food_categories'        => 'Categorias de alimentos',
+    'foods'                  => 'Alimentos',
+
     
     /* Database */
     'category_name' => 'Nome',
