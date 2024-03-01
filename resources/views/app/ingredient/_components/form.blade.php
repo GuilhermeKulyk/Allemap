@@ -31,11 +31,9 @@
                                 <div class='col'>
                                     <label class="form-label">{{ __('messages.toxicity_level') }}</label>
                                     <select name="toxicity" class="form-select">
-                                        <option value="0" selected>0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        @for ($i = 0; $i <= 4; $i++)
+                                            <option value="{{ $i }}" {{ $ingredient->toxicity == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
                                     </select>
                                     {{ $errors->has('toxicity') ? $errors->first('toxicity') : '' }}
                                 </div>
@@ -44,9 +42,11 @@
                                     <div class="input-group">
                                         <select name="category_id" class="form-select">
                                             @foreach($ingredientCategories as $ingredientCategory)
-                                                <option value="{{ $ingredientCategory->id }}">{{ $ingredientCategory->category_name }}</option>
+                                                <option value="{{ $ingredientCategory->id }}" {{ $ingredient->category_id == $ingredientCategory->id ? 'selected' : '' }}>
+                                                    {{ $ingredientCategory->category_name }}
+                                                </option>
                                             @endforeach
-                                        </select>
+                                        </select>                                        
                                         <button type="button" class="btn btn-outline-secondary" id="addCategoryButton" data-bs-toggle="modal" data-bs-target="#addCategoryModal">+</button>
                                     </div>
                                     {{ $errors->has('category_id') ? $errors->first('category_id') : '' }}

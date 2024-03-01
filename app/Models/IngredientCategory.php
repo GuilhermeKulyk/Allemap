@@ -12,6 +12,6 @@ class IngredientCategory extends Model
     protected $fillable = ['category_name', 'description', 'user_id'];
 
     public function ingredient() {
-        return $this->belongsTo('App/Models/IngredientCategory');
+        return $this->belongsTo('App\Models\Ingredient', 'category_id');
     }
 }

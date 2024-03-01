@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Illuminate\Database\QueryException;
 use App\Models\Ingredient;
 use App\Models\IngredientCategory;
 
@@ -40,11 +40,25 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'toxicity' => 'required|integer',
+        $rules = [
+            'name' => 'required|string|min:3|max:255|unique',
+            'toxicity' => 'min:0|max:4|required|integer|between:min,max',
             'category_id' => 'required|exists:ingredient_categories,id'
-        ]);
+        ];
+
+        $feedback = [
+            'required'               => __("messages.validation.feedback.required"),
+            'name.unique'            => __("messages.validation.feedback.name.unique"), 
+            'max'                    => __("messages.validation.feedback.name.max"),
+            'name.min'               => __("messages.validation.feedback.name.min"),
+            'toxicity.min'           => __("messages.validation.feedback.toxicity.min"),
+            'toxicity.max'           => __("messages.validation.feedback.toxicity.max"),   
+            'toxicity.required'      => __("messages.validation.feedback.toxicity.required"),
+            'toxicity.between'       => __("messages.validation.feedback.toxicity.invalid-number"), 
+            'toxicity.min'           => __("messages.validation.feedback.name.required")
+        ];
+
+        $request->validate([$rules, $feedback]);
        
         // Adiciona o user_id aos dados do ingrediente
         $ingredientData = $request->all();
@@ -68,9 +82,12 @@ class IngredientController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Ingredient $ingredient)
-    {
+    {   
+        // Localiznado model IngredientCategory
+        $ingredientCategory = $ingredient->ingredientCategory()->find($ingredient->category_id);
         $ingredientCategories = IngredientCategory::all();
-        return view('app.ingredient.edit', compact('ingredient', 'ingredientCategories'));
+
+        return view('app.ingredient.edit', compact('ingredient', 'ingredientCategory', 'ingredientCategories'));
     }
 
     /**
@@ -78,13 +95,41 @@ class IngredientController extends Controller
      */
     public function update(Request $request, Ingredient $ingredient)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'toxicity' => 'required|integer',
-            'category_id' => 'required|exists:ingredient_categories,id'
-        ]);
 
-        $ingredient->update($request->all());
+        $rules = [
+            'name' => 'required|string|min:3|max:255|unique',
+            'toxicity' => 'min:0|max:4|required|integer|between:min,max',
+            'category_id' => 'required|exists:ingredient_categories,id'
+        ];
+
+        $feedback = [
+            'required'               => __("messages.validation.feedback.required"),
+            'name.unique'            => __("messages.validation.feedback.name.unique"), 
+            'max'               => __("messages.validation.feedback.name.max"),
+            'name.min'               => __("messages.validation.feedback.name.min"),
+            'toxicity.min'           => __("messages.validation.feedback.toxicity.min"),
+            'toxicity.max'           => __("messages.validation.feedback.toxicity.max"),   
+            'toxicity.required'      => __("messages.validation.feedback.toxicity.required"),
+            'toxicity.between'       => __("messages.validation.feedback.toxicity.invalid-number"), 
+            'toxicity.min'           => __("messages.validation.feedback.name.required")
+        ];
+
+        $request->validate([$rules, $feedback]);
+
+        try {
+            $ingredient->where('user_id', Auth::user()->id)
+            ->whereId($ingredient->id)
+            ->update([
+                'name'          => $request->input('name'),
+                'toxicity'      => $request->input('toxicity'),
+                'category_id'   => $request->input('category_id')
+            ]);
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errors['DB-error'] = ($e->getMessage());
+            dd($errors['DB-error']);
+        }
+
         return redirect()->route('ingredient.index')->with('success', 'Ingredient updated successfully');
     }
 

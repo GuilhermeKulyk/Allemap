@@ -8,9 +8,10 @@
     __('messages.ingredient_category') => 'ingredient-category.index'
 ]" />
 
-    @component('app.ingredient._components.form', [
-        'ingredient' => $ingredient, 
-        'ingredientCategories' => $ingredientCategories
-    ])
-    @endcomponent
+@component('app.ingredient._components.form', [
+    'ingredient' => $ingredient, 
+    'ingredientCategory' => $ingredientCategory,
+    'ingredientCategories' => $ingredientCategories
+])
+@endcomponent
 @endsection

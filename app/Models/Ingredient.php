@@ -12,6 +12,6 @@ class Ingredient extends Model
     protected $fillable = ['user_id', 'category_id', 'name', 'toxicity'];
 
     public function ingredientCategory() {
-        return $this->hasOne('App\Models\IngredientCategory');
+        return $this->belongsTo('App\Models\IngredientCategory', 'category_id');
     }
 }

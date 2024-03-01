@@ -156,7 +156,6 @@ class IngredientCategoryController extends Controller
     {   
         $search = $request->get('search');
         $results = $ingredientCategory->where('category_name', 'LIKE', '%' . $search . '%')->get();
-    
         
         if (isset($results)) 
         {
