@@ -1,7 +1,7 @@
 <div class="row aba">
     <div class="col mx-auto">
         
-        <form action="{{$route}}" method='post'>
+        <form action="{{ route($route)}}" method='post'>
             @csrf
             <div class="input-group">
                 @if (isset($search))

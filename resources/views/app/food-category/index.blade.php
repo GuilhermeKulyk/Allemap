@@ -11,7 +11,7 @@
                 $search = '';
                 @endphp
             @endif
-            @component('layouts._components.search-bar', ['search' => $search, 'route' => 'search'])
+            @component('layouts._components.search-bar', ['search' => $search, 'route' => 'food-category.search'])
             @endcomponent
             <a href="{{ route('food-category.create') }}" class='btn small fw-light add-link'>{{__("messages.words.add")}}</a>
             @php 

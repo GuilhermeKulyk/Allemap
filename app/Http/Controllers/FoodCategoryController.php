@@ -14,11 +14,11 @@ class FoodCategoryController extends Controller
     public function index()
     {        
         // get categories
-        $foodCategories = FoodCategory::where('user_id', Auth::id())
-            ->orderBy('name')
+        $results = FoodCategory::where('user_id', Auth::id())
+            ->orderBy('category_name')
             ->get(); 
-
-        return view('app.food-category.index', compact('foodCategories'));
+        
+        return view('app.food-category.index', compact('results'));
     }
 
     /**
@@ -34,18 +34,20 @@ class FoodCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        
+        /*
         $request->validate([
-            'name' => 'required|min:3|max:25|unique:food_categories,name,NULL,id,user_id,' . Auth::id(),
+            'name' => 'required|min:3|max:25',
             'description' => 'max:2000',
         ]);
-
+            */
+        
         $category = new FoodCategory();
-        $category->name = $request->input('name');
+        $category->category_name = $request->input('category_name');
         $category->description = $request->input('description');
         $category->user_id = Auth::id();
         $category->save();
-
-        return redirect()->route('food-category.index');
+        return redirect()->route('food-category.index')->with('success','All done.');
     }
 
     /**
@@ -69,12 +71,14 @@ class FoodCategoryController extends Controller
             return redirect()->back()->with('error', 'Unauthorized');
         }
 
+        /*
         $request->validate([
-            'name' => 'required|min:3|max:25|unique:food_categories,name,' . $foodCategory->id . ',id,user_id,' . Auth::id(),
+            'name' => 'required|min:3|max:25',
             'description' => 'max:2000',
         ]);
+        */
 
-        $foodCategory->name = $request->input('name');
+        $foodCategory->category_name = $request->input('category_name');
         $foodCategory->description = $request->input('description');
         $foodCategory->save();
 
@@ -92,5 +96,26 @@ class FoodCategoryController extends Controller
 
         $foodCategory->delete();
         return redirect()->route('food-category.index');
+    }
+
+            /**
+     * Remove the specified resource from storage
+     * @param  \App\FoodCategory $foodCategory
+     * @param string $search
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request, FoodCategory $foodCategory)
+    {   
+        $search = $request->get('search');
+        $results = $foodCategory->where('category_name', 'LIKE', '%' . $search . '%')->get();
+
+        if (isset($results)) 
+        {
+            return view('app.food-category.index',  compact('results'));
+        } 
+        else
+        {
+            return view('app.food-category.index');
+        } 
     }
 }

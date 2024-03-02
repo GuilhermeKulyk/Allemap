@@ -11,30 +11,36 @@
       </a>
     </li>
     <li>
-      <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('refeicao') ? 'active' : '' }}">
+      <a href="{{ route('ingredient-category.index') }}" class="nav-link nav-link-side {{ request()->is('meal') ? 'active' : '' }}">
         Refeições
       </a>
     </li>
     <li>
-      <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('alimento') ? 'active' : '' }}">
-        Alimentos
+      <a href="{{ route('food.index') }}" class="nav-link nav-link-side {{ request()->is('foods') ? 'active' : '' }}">
+        {{__('messages.foods')}}
       </a>
     </li>
     <li>
-      <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('ingrediente') ? 'active' : '' }}">
+      <a href="{{ route('food-category.index') }}" class="nav-link nav-link-side {{ request()->is('food-category') ? 'active' : '' }}">
+        {{__('messages.foods')}} - Categorias
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('ingredient') ? 'active' : '' }}">
         Ingredientes
       </a>
     </li>
     <li>
-      <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('configuracoes') ? 'active' : '' }}">
+      <a href="{{ route('ingredient-category.index') }}" class="nav-link nav-link-side {{ request()->is('ingredient-category') ? 'active' : '' }}">
+        Ingredientes - Categorias
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('config') ? 'active' : '' }}">
         Configurações
       </a>
     </li>
     <!-- Example single danger button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Action
-  </button>
+  </div> 
 
-  </ul>
-</div>
+  

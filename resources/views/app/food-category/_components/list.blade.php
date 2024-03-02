@@ -2,18 +2,20 @@
     <div class="row">
         <div class="col">
             <ul class="list-group">
+                
                 @if (!empty($data))
                     @foreach ($data as $foodCategory)
                         <li class="list-group-item">
                             <div class="row">
+                                
                                 <div class="col">{{ $foodCategory->category_name }}</div>
                                 <!-- Colunas de edição e exclusão -->
                                 <div class="col-1 text-right">
-                                    <a href="{{ route('food-category.edit', ['foodCategory' => $foodCategory->id ]) }}"><button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button></a>
+                                    <a href="{{ route('food-category.edit', ['food_category' => $foodCategory->id ]) }}"><button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button></a>
                                 </div>
                                 <div class="col-1 text-right">
                                     
-                                    <form id="form_{{$foodCategory->id}}" method="post" action="{{ route('food-category.delete', ['foodCategory' => $foodCategory->id ]) }}">
+                                    <form id="form_{{$foodCategory->id}}" method="post" action="{{ route('food-category.destroy', ['food_category' => $foodCategory->id ]) }}">
                                         @method('DELETE')
                                         @csrf
                                         <!--<button type="submit">Excluir</button>-->

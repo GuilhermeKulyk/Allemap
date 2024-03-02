@@ -6,23 +6,34 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| HOME
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
+
 Auth::routes();
 
+
+/* 
+| ---------------------------------------------------------------------------------
+|   INGREDIENT CATEGORY
+| ---------------------------------------------------------------------------------
+*/
+
 Route::prefix('ingredient-category')->group(function () {
-    Route::get('/index', [App\Http\Controllers\IngredientCategoryController::class, 'index'])
+    Route::get('/', [App\Http\Controllers\IngredientCategoryController::class, 'index'])
     ->name('ingredient-category.index');
 
     Route::get('/create', [App\Http\Controllers\IngredientCategoryController::class, 'create'])
@@ -40,18 +51,59 @@ Route::prefix('ingredient-category')->group(function () {
     Route::delete('/{ingredientCategory}/delete', [App\Http\Controllers\IngredientCategoryController::class, 'destroy'])
     ->name('ingredient-category.delete');
 
-    Route::post('/search', [App\Http\Controllers\IngredientCategoryController::class, 'search'])
-    ->name('ingredient-category.search');
+})->middleware('auth');
+Route::post('ingredient-category/search', [App\Http\Controllers\IngredientCategoryController::class, 'search'])
+->name('ingredient-category.search')->middleware('auth');;
 
-}); //->middleware('auth');
 
-Route::resource('ingredient', 'App\Http\Controllers\IngredientController')
-->middleware('auth');
+/* 
+| ---------------------------------------------------------------------------------
+|   INGREDIENT
+| ---------------------------------------------------------------------------------
+*/
+
+Route::resource('ingredient', 'App\Http\Controllers\IngredientController');
+//->middleware('web');
+
+
+Route::post('ingredient/search', [App\Http\Controllers\IngredientController::class, 'search'])
+    ->name('ingredient.search')->middleware('auth');;
+
+
+
+/*
+| ---------------------------------------------------------------------------------
+|   FOOD CATEGORY
+| ---------------------------------------------------------------------------------
+*/
+
+Route::resource('food-category', 'App\Http\Controllers\FoodCategoryController')
+    ->middleware('auth');
+
+Route::post('food-category/search', [App\Http\Controllers\FoodCategoryController::class, 'search'])
+    ->name('food-category.search')->middleware('auth');;
+
+
+/*
+|--------------------------------------------------------------------------
+| FOOD
+|--------------------------------------------------------------------------
+*/
 
 Route::resource('food', 'App\Http\Controllers\FoodController')
 ->middleware('auth');
 
+Route::post('food/search', [App\Http\Controllers\IngredientController::class, 'search'])
+    ->name('food.search')->middleware('auth');
+
+
+/*
+|--------------------------------------------------------------------------
+| MEAL
+|--------------------------------------------------------------------------
+*/
+
 Route::resource('meal', 'App\Http\Controllers\MealController')
 ->middleware('auth');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

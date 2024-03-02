@@ -141,4 +141,25 @@ class IngredientController extends Controller
         $ingredient->delete();
         return redirect()->route('ingredient.index')->with('success', 'Ingredient deleted successfully');
     }
+
+        /**
+     * Remove the specified resource from storage
+     * @param  \App\Ingredient $Ingredient
+     * @param string $search
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request, Ingredient $ingredient)
+    {   
+        $search = $request->get('search');
+        $results = $ingredient->where('name', 'LIKE', '%' . $search . '%')->get();
+        
+        if (isset($results)) 
+        {
+            return view('app.ingredient.index',  compact('results'));
+        } 
+        else
+        {
+            return view('app.ingredient.index');
+        } 
+    }
 }

@@ -19,7 +19,7 @@
                 @endphp
             @endif
             
-            @component('layouts._components.search-bar', ['search' => $search, 'route' => 'search'])
+            @component('layouts._components.search-bar', ['search' => $search, 'route' => 'ingredient.search'])
             @endcomponent
 
             <a href="{{ route('ingredient.create') }}" class='btn small fw-light add-link'>{{__("messages.words.add")}}</a>
