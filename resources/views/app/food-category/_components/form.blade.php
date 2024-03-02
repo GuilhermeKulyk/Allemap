@@ -10,11 +10,12 @@
                 @endif          
                 <div class="card-body">
                     @if ($foodCategory->id) <!-- edit -->
-                        <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('food-category.update' , ['id' => $foodCategory->id] ) }}" method='post'>
+                        <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('food-category.update' , ['food_category' => $foodCategory->id] ) }}" method='post'>
+                        @method('PUT')
                     @else <!-- Create -->
-                         <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('food-category.store') }}" method='post' >
+                        <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('food-category.store') }}" method='post' >
                     @endif
-                        @csrf
+                    @csrf
                         <div class="form-input mb-3">   
                             <label class="form-label">{{ __('messages.words.name') }}</label>
                             <input type="text" class="form-control" name="category_name" value="{{ $foodCategory->category_name ?? old('category_name') }}" >
