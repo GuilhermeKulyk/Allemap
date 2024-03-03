@@ -24,18 +24,17 @@
 
             <a href="{{ route('food.create') }}" class='btn small fw-light add-link'>{{__("messages.words.add")}}</a>
             
-                @php
-                if (!isset($results)) 
-                {
-                    $results = [];
-                }
-                @endphp
-
-                @component('app.food._components.list', [
-                    'title' =>  __('messages.words.name'),
-                    'results' => $results
-                ])
-                @endcomponent
+            @php
+            if (!isset($results)) 
+            {
+                $results = [];
+            }
+            @endphp
+            @component('app.food._components.list', [
+                'title' =>  __('messages.words.name'),
+                'results' => $results
+            ])
+            @endcomponent
         </div>
     </div>
 </div>

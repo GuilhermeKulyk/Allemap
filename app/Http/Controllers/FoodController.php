@@ -149,7 +149,7 @@ class FoodController extends Controller
         
         if (isset($results)) 
         {
-            return redirect()->route('food.search')->with('results', $results);
+            return view('app.food.index', ['results' => $results]);
         } 
         else
         {

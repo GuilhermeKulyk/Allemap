@@ -93,7 +93,7 @@ Route::post('food-category/search', [App\Http\Controllers\FoodCategoryController
 Route::resource('food', 'App\Http\Controllers\FoodController')
 ->middleware('auth');
 
-Route::post('food/search', [App\Http\Controllers\IngredientController::class, 'search'])
+Route::post('food/search', [App\Http\Controllers\FoodController::class, 'search'])
     ->name('food.search')->middleware('auth');
 
 
