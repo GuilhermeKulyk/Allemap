@@ -81,7 +81,7 @@ class FoodController extends Controller
         
         $request->validate([$rules, $feedback]);
 
-       dd($request->get('includedIngredients'));
+       dd($request->all());
        
         // Adiciona o user_id aos dados do foode
         $foodData = $request->all();

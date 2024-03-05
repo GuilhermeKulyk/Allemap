@@ -29,7 +29,7 @@
 
                         <!-- Seção para selecionar a categoria do alimento -->
                         <div class="form-group mb-3">
-                            <label for="category" class="form-label">{{ __('messages.words.category') }}</label>
+                            <label for="category_id" class="form-label">{{ __('messages.words.category') }}</label>
                             <select class="form-select" id="category_id" name="category_id">
                                 <option value="" selected disabled>{{ __('messages.words.empty') }}</option>
                                
@@ -41,7 +41,7 @@
 
 
                         <!-- Seção para listar ingredientes -->
-                        <label for="ingredients" class="form-label">{{ __('messages.ingredients') }}</label><br>
+                        <label for="mainIngredientList" class="form-label">{{ __('messages.ingredients') }}</label><br>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIngredientsModal">
                             <i class="fas fa-plus"></i> {{ __('messages.add_ingredients') }}
                         </button>
@@ -91,7 +91,7 @@
                 </ul>
                 <ul id="ingredientList" class="list-group">
                     @foreach ($userIngredients as $ingredient)
-                        <li class="list-group-item">{{ $ingredient->name }}</li>
+                        <li class="list-group-item" data-id="{{ $ingredient->id }}">{{ $ingredient->name }}</li>
                     @endforeach
                 </ul>
             </div>
