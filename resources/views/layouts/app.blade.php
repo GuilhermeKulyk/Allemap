@@ -41,8 +41,8 @@
             @endauth
                 <!-- Main content -->
                 <!-- if is login page, full size -->
-                                <main id="content" class="content-{{ str_replace(".", "-", Route::current()->getName()) }}">
                                 
+                                <main id="content" class="content-{{ str_replace(".", "-", Route::current()->getName()) }}">
                                 @yield('content')
                                 </main>
                             </div>        

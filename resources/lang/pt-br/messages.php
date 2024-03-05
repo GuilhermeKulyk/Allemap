@@ -17,9 +17,14 @@ return [
     'words.list'             => 'Listar',
     'words.create'           => 'Cadastrar',
     'words.toxicity'         => 'Toxidade',
+    'words.cancel'           => 'Cancelar',
+    
 
     /* App stuff */
     'ingredient'                                    => 'Ingrediente',
+    'ingredients'                                   => 'Ingredientes',
+    'add_ingredients'                               => 'Incluir ingredientes',
+    'no_ingredients'                                => 'Sem ingredientes adicionados',
     'categories  '                                  => 'Categorias',
     'ingredient_category'                           => 'Categoria de ingredientes',
     'ingredient_categories'                         => 'Categorias de ingredientes',
@@ -28,6 +33,7 @@ return [
     'edit_food_category'                            => 'Editar categoria de alimento',
     'food_categories'                               => 'Categorias de alimentos',
     'foods'                                         => 'Alimentos',
+    'food'                                          => 'Alimento',
 
     
     /* Database */

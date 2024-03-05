@@ -12,6 +12,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-9 flex-grow-1">
+            <h1 class="display-5 text-center bold">Alimentos</h1>
 
             @if (!isset($search))
                 @php
@@ -22,7 +23,7 @@
             @component('layouts._components.search-bar', ['search' => $search, 'route' => 'food.search'])
             @endcomponent
 
-            <a href="{{ route('food.create') }}" class='btn small fw-light add-link'>{{__("messages.words.add")}}</a>
+            <a href="{{ route('food.create') }}" class='btn small fw-light add-link text-center'>{{__("messages.words.add")}}</a>
             
             @php
             if (!isset($results)) 

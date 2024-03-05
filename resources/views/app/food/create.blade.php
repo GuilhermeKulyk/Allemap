@@ -10,7 +10,10 @@
 
     @component('app.food._components.form', [
         'food' => $food, 
-        'foodCategories' => $foodCategories
+        'user' => $user,
+        'userFoodCategories'  => $userFoodCategories,
+        'userIngredients' => $userIngredients
     ])
     @endcomponent
+    
 @endsection

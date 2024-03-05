@@ -15,7 +15,14 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col">{{ $food->name }}</div>
-                                <div class="col">{{ $food->foodCategory->category_name }}</div>
+                                <div class="col">
+                                    @isset($food->foodCategory)
+                                        {{ $food->foodCategory }}
+                                    @else
+                                        <!-- Exibe vazio ou outra mensagem caso a categoria não esteja definida -->
+                                        Vazio
+                                    @endisset
+                                </div>
                                 <!-- Colunas de edição e exclusão -->
                                 <div class="col-2 text-right">
                                     <!-- Link de edição -->

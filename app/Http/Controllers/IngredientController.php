@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
 use App\Models\Ingredient;
 use App\Models\IngredientCategory;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use App\Models\User;
 
 class IngredientController extends Controller
 {
@@ -16,8 +17,17 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        $results = Ingredient::all();
-        return view('app.ingredient.index', compact('results'));
+        $user = User::find(Auth::id());
+        $results = $user->ingredients;
+
+        if (isset($results)) 
+        {
+            return view('app.ingredient.index',  compact('results'));
+        } 
+        else 
+        {
+            return view('app.ingredient.index');
+        } 
     }
 
     /**

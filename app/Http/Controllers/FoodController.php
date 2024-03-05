@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use App\Models\Food;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use App\Models\FoodCategory;
+use App\Models\Food;
+use App\Models\User;
 
 
 class FoodController extends Controller
@@ -16,8 +18,20 @@ class FoodController extends Controller
      */
     public function index()
     {
-        $results = Food::all();
-        return view('app.food.index', compact('results'));
+        $results = DB::table('foods')
+        ->where('user_id', Auth::user()->id)
+        ->orderBy('name')
+        ->get()
+        ->toArray(); 
+
+        if (isset($results)) 
+        {
+            return view('app.food.index',  compact('results'));
+        } 
+        else 
+        {
+            return view('app.food.index');
+        } 
     }
 
     /**
@@ -26,12 +40,19 @@ class FoodController extends Controller
     public function create()
     {   
         $food = new Food(); // Criar uma nova instância do modelo Food
-        $foodCategories = FoodCategory::all();
+        
+        $user = User::find(Auth::user()->id);
 
+        $userFoodCategories = $user->foodCategories;
+        $userIngredients = $user->ingredients()->get();
+
+        //dd($user->ingredients()->get);
         return view('app.food.create', 
         [
-            'food' => $food, 
-            'foodCategories' => $foodCategories
+            'food'                => $food, 
+            'user'                => $user,
+            'userFoodCategories'  => $userFoodCategories,
+            'userIngredients'     => $userIngredients
         ]);
     }
 
@@ -57,8 +78,10 @@ class FoodController extends Controller
             'toxicity.between'       => __("messages.validation.feedback.toxicity.invalid-number"), 
             'toxicity.min'           => __("messages.validation.feedback.name.required")
         ];
-
+        
         $request->validate([$rules, $feedback]);
+
+       dd($request->get('includedIngredients'));
        
         // Adiciona o user_id aos dados do foode
         $foodData = $request->all();

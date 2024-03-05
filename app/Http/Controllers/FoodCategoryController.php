@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FoodCategory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class FoodCategoryController extends Controller
 {

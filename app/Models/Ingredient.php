@@ -14,4 +14,9 @@ class Ingredient extends Model
     public function ingredientCategory() {
         return $this->belongsTo('App\Models\IngredientCategory', 'category_id');
     }
+
+    public function foods()
+    {
+        return $this->belongsToMany(Food::class, 'food_ingredients');
+    }
 }

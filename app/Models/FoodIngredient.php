@@ -20,6 +20,7 @@ class FoodIngredient extends Model
     public function food()
     {
         return $this->belongsTo(Food::class);
+        return $this->belongsTo('App\Models\Food', 'food_)');
     }
 
     /**
@@ -29,4 +30,11 @@ class FoodIngredient extends Model
     {
         return $this->belongsTo(Ingredient::class);
     }
+/*
+    public function getIngredients()
+    {
+        return FoodIngredient::where('food_id', Auth::id())->get();
+    }
+    */
+
 }
