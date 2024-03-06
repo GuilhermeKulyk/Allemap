@@ -18,6 +18,7 @@ return [
     'words.create'           => 'Cadastrar',
     'words.toxicity'         => 'Toxidade',
     'words.cancel'           => 'Cancelar',
+    'words.empty'            => 'Vazio',
     
 
     /* App stuff */
@@ -25,7 +26,7 @@ return [
     'ingredients'                                   => 'Ingredientes',
     'add_ingredients'                               => 'Incluir ingredientes',
     'no_ingredients'                                => 'Sem ingredientes adicionados',
-    'categories  '                                  => 'Categorias',
+    'categories'                                    => 'Categorias',
     'ingredient_category'                           => 'Categoria de ingredientes',
     'ingredient_categories'                         => 'Categorias de ingredientes',
     'register_ingredient'                           => 'Cadastrar ingrediente',
@@ -45,7 +46,7 @@ return [
 
     /* Forms */
     'toxicity_level'                                => 'Nivel de toxidade',
-    'category'                                      => 'Categoria de ingredientes',
+    'category'                                      => 'Categoria',
 
     /* Validation */
     'validation.feedback.required'                  => 'O campo é obrigatório',

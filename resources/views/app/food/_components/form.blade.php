@@ -9,7 +9,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' 
+                    <form id='form-create-food'  
                         @if ($food->exists)
                             action="{{ route('food.update', ['food' => $food->id]) }}"
                         @else 
@@ -29,7 +29,7 @@
 
                         <!-- Seção para selecionar a categoria do alimento -->
                         <div class="form-group mb-3">
-                            <label for="category_id" class="form-label">{{ __('messages.words.category') }}</label>
+                            <label for="category_id" class="form-label">{{ __('messages.category') }}</label>
                             <select class="form-select" id="category_id" name="category_id">
                                 <option value="" selected disabled>{{ __('messages.words.empty') }}</option>
                                

@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\FoodCategory;
+use App\Models\FoodIngredient;
 use App\Models\Food;
 use App\Models\User;
+
 
 
 class FoodController extends Controller
@@ -19,10 +22,10 @@ class FoodController extends Controller
     public function index()
     {
         $results = DB::table('foods')
-        ->where('user_id', Auth::user()->id)
-        ->orderBy('name')
-        ->get()
-        ->toArray(); 
+            ->where('user_id', Auth::user()->id)
+            ->orderBy('name')
+            ->get()
+            ->toArray(); 
 
         if (isset($results)) 
         {
@@ -59,38 +62,46 @@ class FoodController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request, Food $food)
+    {       
         $rules = [
             'name' => 'required|string|min:3|max:255|unique',
-            'toxicity' => 'min:0|max:4|required|integer|between:min,max',
             'category_id' => 'required|exists:food_categories,id'
         ];
 
         $feedback = [
             'required'               => __("messages.validation.feedback.required"),
-            'name.unique'            => __("messages.validation.feedback.name.unique"), 
+            'unique'            => __("messages.validation.feedback.name.unique"), 
             'max'                    => __("messages.validation.feedback.name.max"),
-            'name.min'               => __("messages.validation.feedback.name.min"),
-            'toxicity.min'           => __("messages.validation.feedback.toxicity.min"),
-            'toxicity.max'           => __("messages.validation.feedback.toxicity.max"),   
-            'toxicity.required'      => __("messages.validation.feedback.toxicity.required"),
-            'toxicity.between'       => __("messages.validation.feedback.toxicity.invalid-number"), 
-            'toxicity.min'           => __("messages.validation.feedback.name.required")
+            'min'               => __("messages.validation.feedback.name.min"),
         ];
         
-        $request->validate([$rules, $feedback]);
+        $request->validate($rules, $feedback);
+      
+        $food->name = $request->input('name');
+        $food->category_id = $request->input('category_id');
+        $food->user_id = Auth::user()->id;
+        $food->save();
+        
+        // Decodificando os IDs dos ingredientes do JSON para um array PHP
+        $ingredientIds = json_decode($request->input('foodIngredients'), true);
 
-       dd($request->all());
-       
-        // Adiciona o user_id aos dados do foode
-        $foodData = $request->all();
-        $foodData['user_id'] = Auth::id();
-    
-        // Cria o foode com os dados fornecidos
-        Food::create($foodData);
-    
-        return redirect()->route('food.index')->with('success', 'Food created successfully');
+        // Iterando sobre os IDs dos ingredientes
+        foreach ($ingredientIds as $ingredientId) {
+            // Criando uma nova instância de FoodIngredient
+            $foodIngredient = new FoodIngredient();
+
+            // Definindo os atributos do FoodIngredient
+            $foodIngredient->food_id = $food->id; 
+            $foodIngredient->ingredient_id = $ingredientId;
+
+            // Salvando o FoodIngredient no banco de dados
+            $foodIngredient->save();
+        }
+        Log::info('Food STORE: ' . $food);
+        Log::info('User: ' . Auth::user()->id);      
+        
+       return redirect()->route('food.index')->with('success', 'Food created successfully');
     }
 
     /**
@@ -131,7 +142,7 @@ class FoodController extends Controller
             'name.min'               => __("messages.validation.feedback.name.min"),
         ];
 
-        $request->validate([$rules, $feedback]);
+        //$request->validate([$rules, $feedback]);
 
         try 
         {

@@ -28,7 +28,6 @@ $(document).ready(function() {
         updateIncludedIngredientsModal();
         updateIncludedIngredientsForm();
         addIngredient(ingredient.id);
-        console.log(foodIngredients);
     }
 
     // Função para adicionar o ingredient-id à array foodIngredients
@@ -54,14 +53,13 @@ $(document).ready(function() {
     $('#saveIngredients').on('click', function() {
         // Limpar a lista de ingredientes no modal
 
-        $('#includedIngredients').empty();
+        //$('#includedIngredients').empty();
 
         // Atualizar a lista de ingredientes no formulário principal
         updateIncludedIngredientsForm();
         
         // Fechar o modal
         $('#addIngredientsModal').modal('hide');
-        
     });
 
     // Evento de clique no botão de busca
@@ -118,17 +116,33 @@ $(document).ready(function() {
         });
     }
 
-    // Evento ao abrir o modal para atualizar os ingredientes incluídos
-    $('#addIngredientsModal').on('show.bs.modal', function() {
-        updateIncludedIngredientsModal();
-    });
+    // Evento de envio do formulário
+    $('#form-create-food').submit(function(event) {
 
-    $('#saveIngredients').on('click', function() {
-        console.log(foodIngredients);
-        // Extrair apenas os nomes dos ingredientes
-        var ingredientNames = includedIngredients.map(function(ingredient) {
-            return ingredient.name;
+        // Evitar o comportamento padrão de envio do formulário
+        event.preventDefault();
+
+        // Obter os dados do formulário
+        var formData = $(this).serializeArray();
+        
+        // Adicionar foodIngredients aos dados do formulário
+        formData.push({ name: "foodIngredients", value: JSON.stringify(foodIngredients) });
+        console.log(formData);
+
+        // Enviar os dados via AJAX
+        $.ajax({
+            url: $(this).attr('action'), // URL especificada no atributo action do formulário
+            method: $(this).attr('method'), // Método especificado no atributo method do formulário
+            data: formData, // Dados do formulário
+            success: function(response) {
+                // Lidar com a resposta do servidor
+                //console.log('Dados enviados com sucesso!');
+                window.location.assign(window.location.host + '/food');
+            },
+            error: function(xhr, status, error) {
+                // Lidar com erros de envio
+                console.error('Ocorreu um erro ao enviar os dados:', error);
+            }
         });
-
-    });  
+    }); 
 });

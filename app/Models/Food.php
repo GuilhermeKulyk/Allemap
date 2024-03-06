@@ -32,4 +32,12 @@ class Food extends Model
         // current user foods
         return Food::where('user_id', Auth::id())->get();
     }
+
+    /**
+     * Get the ingredients associated with the food.
+     */
+    public function foodIngredients()
+    {
+        return $this->hasMany(FoodIngredient::class);
+    }
 }
