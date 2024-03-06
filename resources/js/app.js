@@ -1,4 +1,9 @@
-import './bootstrap';
+
+// Importe o Bootstrap JavaScript
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+// Importe o Toastr
+import 'toastr/toastr.js';
 
 $(document).ready(function() {
     var includedIngredients = []; // Array para armazenar os ingredientes incluídos
@@ -137,7 +142,8 @@ $(document).ready(function() {
             success: function(response) {
                 // Lidar com a resposta do servidor
                 //console.log('Dados enviados com sucesso!');
-                window.location.assign(window.location.host + '/food');
+                //window.location.assign(window.location.host + '/food');
+                
             },
             error: function(xhr, status, error) {
                 // Lidar com erros de envio

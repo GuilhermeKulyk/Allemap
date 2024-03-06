@@ -10,6 +10,11 @@ export default defineConfig({
                 'resources/js/form_food.js'
             ],
             refresh: true,
-        }),
+        })
     ],
+    resolve: {
+        alias: {
+            'toastr': 'toastr/toastr.js'
+        }
+    }
 });

@@ -76,7 +76,7 @@ class FoodController extends Controller
             'min'               => __("messages.validation.feedback.name.min"),
         ];
         
-        $request->validate($rules, $feedback);
+        //$request->validate($rules, $feedback);
       
         $food->name = $request->input('name');
         $food->category_id = $request->input('category_id');
@@ -98,6 +98,9 @@ class FoodController extends Controller
             // Salvando o FoodIngredient no banco de dados
             $foodIngredient->save();
         }
+
+        toastr()->success('Data has been saved successfully!', 'Congrats');
+        
         Log::info('Food STORE: ' . $food);
         Log::info('User: ' . Auth::user()->id);      
         
