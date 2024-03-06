@@ -19,6 +19,7 @@ return [
     'words.toxicity'         => 'Toxidade',
     'words.cancel'           => 'Cancelar',
     'words.empty'            => 'Vazio',
+    'words.success'            => 'Sucesso',
     
 
     /* App stuff */
@@ -69,4 +70,6 @@ return [
     /* Placeholders */
     'search_category'                               => 'Buscar categoria',
 
-];
+    /* Nofications */
+    'messages.notification.success' => 'Dados cadastrados com sucesso',
+];  

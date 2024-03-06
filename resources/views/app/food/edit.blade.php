@@ -11,7 +11,8 @@
 @component('app.food._components.form', [
     'food' => $food, 
     'foodCategory' => $foodCategory,
-    'foodCategories' => $foodCategories
+    'foodCategories' => $foodCategories,
+    'userIngredients' => $userIngredients
 ])
 @endcomponent
 @endsection

@@ -65,9 +65,9 @@ class FoodController extends Controller
     public function store(Request $request, Food $food)
     {       
         $rules = [
-            'name' => 'required|string|min:3|max:255|unique',
+            'name' => 'required|string|min:3|max:255|unique:foods',
             'category_id' => 'required|exists:food_categories,id'
-        ];
+        ];        
 
         $feedback = [
             'required'               => __("messages.validation.feedback.required"),
@@ -76,7 +76,12 @@ class FoodController extends Controller
             'min'               => __("messages.validation.feedback.name.min"),
         ];
         
-        //$request->validate($rules, $feedback);
+        $request->validate($rules, $feedback);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        
       
         $food->name = $request->input('name');
         $food->category_id = $request->input('category_id');
@@ -98,13 +103,13 @@ class FoodController extends Controller
             // Salvando o FoodIngredient no banco de dados
             $foodIngredient->save();
         }
-
-        toastr()->success('Data has been saved successfully!', 'Congrats');
+        
+        toastr()->success(__('messages.notification.success'), __('messages.words.success'));
         
         Log::info('Food STORE: ' . $food);
         Log::info('User: ' . Auth::user()->id);      
         
-       return redirect()->route('food.index')->with('success', 'Food created successfully');
+        return response()->json(['redirect_url' => route('food.index')]);
     }
 
     /**
@@ -119,12 +124,19 @@ class FoodController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Food $food)
-    {   
-        // Localiznado model FoodCategory
-        $foodCategory = $food->foodCategory()->find($food->category_id);
-        $foodCategories = FoodCategory::all();
+    {         
+        $user = User::find(Auth::user()->id);
 
-        return view('app.food.edit', compact('food', 'foodCategory', 'foodCategories'));
+        $userFoodCategories = $user->foodCategories;
+        $userIngredients = $user->ingredients()->get();
+
+        return view('app.food.create', 
+        [
+            'food'                => $food, 
+            'user'                => $user,
+            'userFoodCategories'  => $userFoodCategories,
+            'userIngredients'     => $userIngredients
+        ]);
     }
 
     /**
