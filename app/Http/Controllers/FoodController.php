@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -76,12 +77,13 @@ class FoodController extends Controller
             'min'               => __("messages.validation.feedback.name.min"),
         ];
         
-        $request->validate($rules, $feedback);
+        $validator = Validator::make($request->all(), $rules, $feedback);
 
+            // Verifique se a validação falhou
         if ($validator->fails()) {
+            // Retorne a resposta com os erros de validação
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
       
         $food->name = $request->input('name');
         $food->category_id = $request->input('category_id');
@@ -171,6 +173,7 @@ class FoodController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             $errors['DB-error'] = ($e->getMessage());
             echo $errors['DB-error'];
+            Log::info('DB ERROR: ' . $errors['DB-error']);
         }
 
         return redirect()->route('food.index')->with('success', 'Food updated successfully');

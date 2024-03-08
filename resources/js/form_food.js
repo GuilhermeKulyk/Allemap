@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var includedIngredients = []; // Array para armazenar os ingredientes incluídos
 
-    var foodIngredients = [];
+    var   foodIngredients = [];
 
     // Função para atualizar a lista de ingredientes incluídos no modal
     function updateIncludedIngredientsModal() {
@@ -128,20 +128,43 @@ $(document).ready(function() {
         console.log(formData);
 
         // Enviar os dados via AJAX
+        // Enviar os dados via AJAX
         $.ajax({
             url: $(this).attr('action'), // URL especificada no atributo action do formulário
             method: $(this).attr('method'), // Método especificado no atributo method do formulário
             data: formData, // Dados do formulário
             success: function(response) {
-                // Lidar com a resposta do servidor
+                // Se houver uma URL de redirecionamento na resposta, redirecione para ela
                 if (response.redirect_url) {
                     window.location.href = response.redirect_url;
+                } else {
+                    // Se não houver URL de redirecionamento, faça qualquer tratamento adicional aqui
+                    // Por exemplo, exibir uma mensagem de sucesso
+                    toastr.success('Formulário enviado com sucesso!', 'Sucesso');
                 }
             },
             error: function(xhr, status, error) {
                 // Lidar com erros de envio
                 console.error('Ocorreu um erro ao enviar os dados:', error);
             }
-        });
+        });  
     }); 
+
+    // Evento disparado quando o modal de edição é mostrado
+    $('#addIngredientsModal').on('show.bs.modal', function(event) {
+        // Limpar a lista de ingredientes incluídos
+        $('#includedIngredients').empty();
+        
+        // Verificar se existem ingredientes associados ao alimento
+        console.log(foodIngredients);
+        if (foodIngredients.length > 0) {
+            // Preencher a lista de ingredientes incluídos com os ingredientes associados ao alimento
+            includedIngredients.forEach(function(ingredient) {
+                $('#includedIngredients').append('<li class="list-group-item bg-success" data-id=' + ingredient.id + '>' + ingredient.name + '</li>');
+            });
+
+            // Ocultar ingredientes incluídos da lista de resultados de busca
+            hideIncludedIngredientsFromSearchResults();
+        }
+    });
 });

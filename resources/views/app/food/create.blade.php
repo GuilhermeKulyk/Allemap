@@ -13,6 +13,7 @@
         'user' => $user,
         'userFoodCategories'  => $userFoodCategories,
         'userIngredients' => $userIngredients
+        // obter lista de ingredientes da comida, se caso existir
     ])
     @endcomponent
     

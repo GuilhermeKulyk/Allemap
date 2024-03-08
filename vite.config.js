@@ -14,7 +14,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            'toastr': 'toastr/toastr.js'
+            'toastr': 'toastr/build/toastr.min.js' // Defina o caminho correto para o toastr
         }
     }
 });

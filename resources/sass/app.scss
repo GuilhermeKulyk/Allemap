@@ -7,5 +7,4 @@
 // Importe o Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-// Importe o Toastr
-@import 'toastr/toastr.scss';
+@import '/node_modules/toastr/build/toastr.min.css';

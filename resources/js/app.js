@@ -1,9 +1,8 @@
 
 // Importe o Bootstrap JavaScript
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
-// Importe o Toastr
-import 'toastr/toastr.js';
+import 'bootstrap';
+console.log()
 
 // Importando js aux
 import './form_food.js';
+import '/node_modules/toastr/toastr.js';

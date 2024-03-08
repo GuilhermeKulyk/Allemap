@@ -45,11 +45,11 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIngredientsModal">
                             <i class="fas fa-plus"></i> {{ __('messages.add_ingredients') }}
                         </button>
-                            <!-- No seu formulário principal -->
+                            <!-- No seu formulário principal -->    
                             
                             <ul id="mainIngredientList" class="list-group mt-2">   
-                                @if (!empty($includedIngredients))                         
-                                @foreach ($includedIngredients as $ingredient)
+                                @if (!empty($food->ingredients()))                         
+                                @foreach ($food->ingredients as $ingredient)
                                     <li class="list-group-item" data-id="{{ $ingredient->id }}">{{ $ingredient->name }}</li>
                                 @endforeach
                             </ul>

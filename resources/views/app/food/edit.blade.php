@@ -13,6 +13,7 @@
     'foodCategory' => $foodCategory,
     'foodCategories' => $foodCategories,
     'userIngredients' => $userIngredients
+    // obter lista de ingredientes da comida
 ])
 @endcomponent
 @endsection
