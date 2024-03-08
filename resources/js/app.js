@@ -1,8 +1,17 @@
+// Importe o jQuery antes do Bootstrap
+import 'jquery';
 
-// Importe o Bootstrap JavaScript
-import 'bootstrap';
-console.log()
+import 'bootstrap-js';
+import 'bootstrap-css';
 
-// Importando js aux
-import './form_food.js';
-import '/node_modules/toastr/toastr.js';
+// Importe o arquivo de configuração do Toastr antes do Toastr
+import 'toastr-config';
+
+// Importe os estilos do Toastr antes do Toastr
+import 'toastr-css';
+
+// Importe o Toastr após os estilos e configuração
+import 'toastr';
+
+/* Components */
+import 'form-food-add';

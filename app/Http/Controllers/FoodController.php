@@ -12,8 +12,8 @@ use App\Models\FoodCategory;
 use App\Models\FoodIngredient;
 use App\Models\Food;
 use App\Models\User;
-
-
+use App\Helpers\Notify;
+use Illuminate\Support\Facades\Session;
 
 class FoodController extends Controller
 {
@@ -21,7 +21,8 @@ class FoodController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
+    //Notify::success('Titulo', "Mensagem aqui!!");
         $results = DB::table('foods')
             ->where('user_id', Auth::user()->id)
             ->orderBy('name')
@@ -43,10 +44,9 @@ class FoodController extends Controller
      */
     public function create()
     {   
+        Notify::success('Bem certinho', 'Boto fe meu');
         $food = new Food(); // Criar uma nova instância do modelo Food
-        
         $user = User::find(Auth::user()->id);
-
         $userFoodCategories = $user->foodCategories;
         $userIngredients = $user->ingredients()->get();
 
@@ -76,13 +76,19 @@ class FoodController extends Controller
             'max'                    => __("messages.validation.feedback.name.max"),
             'min'               => __("messages.validation.feedback.name.min"),
         ];
-        
-        $validator = Validator::make($request->all(), $rules, $feedback);
 
-            // Verifique se a validação falhou
+        $validator = Validator::make($request->all(), $rules, $feedback);
+        
+        // Verifique se a validação falhou
         if ($validator->fails()) {
+            // Mapeie os erros para as mensagens personalizadas
+            $errors = [];
+            foreach ($validator->errors()->all() as $error) {
+                $errors[] = $error;
+            }
+
             // Retorne a resposta com os erros de validação
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $errors], 422);
         }
       
         $food->name = $request->input('name');
@@ -106,10 +112,13 @@ class FoodController extends Controller
             $foodIngredient->save();
         }
         
-        toastr()->success(__('messages.notification.success'), __('messages.words.success'));
-        
         Log::info('Food STORE: ' . $food);
-        Log::info('User: ' . Auth::user()->id);      
+        Log::info('User: ' . Auth::user()->id);   
+
+        $title = __('messages.words.success');
+        $message = __('messages.notify.food.added.success');
+
+        Session::flash('success', $title . $message);
         
         return response()->json(['redirect_url' => route('food.index')]);
     }
@@ -146,7 +155,6 @@ class FoodController extends Controller
      */
     public function update(Request $request, Food $food)
     {
-
         $rules = [
             'name' => 'required|string|min:3|max:255|unique',
             'category_id' => 'required|exists:food_categories,id'

@@ -4,6 +4,12 @@ return [
     'about'                  => 'Sobre nós',
     'login'                  => 'Faça login para entrar',
 
+    /* Notifications */
+    'success' => 'Sucesso',
+    'error' => 'Erro',
+    'warning' => 'Atenção',
+    'info' => 'Info',
+
     /* Menu */
     'sidemenu.home'          => 'Home',
 
@@ -19,7 +25,7 @@ return [
     'words.toxicity'         => 'Toxidade',
     'words.cancel'           => 'Cancelar',
     'words.empty'            => 'Vazio',
-    'words.success'            => 'Sucesso',
+    'words.success'          => 'Sucesso',
     
 
     /* App stuff */
@@ -71,5 +77,6 @@ return [
     'search_category'                               => 'Buscar categoria',
 
     /* Nofications */
-    'messages.notification.success' => 'Dados cadastrados com sucesso',
-];  
+    'notification.success'        => 'Dados cadastrados com sucesso',
+    'notify.food.added.success'   => 'Alimento cadastrado.',
+];

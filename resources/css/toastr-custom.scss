@@ -1,0 +1,80 @@
+/* Defina o estilo para o ícone do FontAwesome */
+.toast-success-icon::before {
+    content: '\f058'; /* Código do ícone do FontAwesome (ícone de check) */
+    font-family: FontAwesome; /* Font family do FontAwesome */
+    color: green; /* Cor do ícone para sucesso */
+    font-size: 24px; /* Tamanho do ícone */
+    margin-right: 10px; /* Espaçamento à direita do ícone */
+}
+
+/* Defina o estilo para o fundo da notificação */
+.toast-success-background {
+    background-color: white; /* Cor de fundo branca para a notificação de sucesso */
+    color: green !important; /* Cor do texto */
+}
+
+/* Defina o estilo para o ícone do FontAwesome (para alertas) */
+.toast-warning-icon::before {
+    content: '\f071'; /* Código do ícone do FontAwesome (ícone de exclamação) */
+    font-family: FontAwesome; /* Font family do FontAwesome */
+    color: yellow; /* Cor do ícone para alerta */
+    font-size: 24px; /* Tamanho do ícone */
+    margin-right: 10px; /* Espaçamento à direita do ícone */
+}
+
+/* Defina o estilo para o fundo da notificação (para alertas) */
+.toast-warning-background {
+    background-color: white; /* Cor de fundo branca para a notificação de alerta */
+    color: black; /* Cor do texto */
+}
+
+/* Defina o estilo para o ícone do FontAwesome (para erros) */
+.toast-error-icon::before {
+    content: '\f06a'; /* Código do ícone do FontAwesome (ícone de exclamação dentro de um círculo) */
+    font-family: FontAwesome; /* Font family do FontAwesome */
+    color: red; /* Cor do ícone para erro */
+    font-size: 24px; /* Tamanho do ícone */
+    margin-right: 10px; /* Espaçamento à direita do ícone */
+}
+
+/* Defina o estilo para o fundo da notificação (para erros) */
+.toast-error-background {
+    background-color: white; /* Cor de fundo branca para a notificação de erro */
+    color: black; /* Cor do texto */
+}
+
+.toast {
+    background-color: white !important;
+}
+
+.toast-custom {
+    display: flex;
+    align-items: center;
+    width: 350px; /* Ajuste de acordo com sua preferência */
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.toast-icon {
+    margin-right: 10px;
+}
+
+.toast-icon i {
+    font-size: 24px;
+}
+
+.toast-content {
+    flex-grow: 1;
+}
+
+.toast-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.toast-message {
+    font-size: 14px;
+}

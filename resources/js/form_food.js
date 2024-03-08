@@ -140,7 +140,7 @@ $(document).ready(function() {
                 } else {
                     // Se não houver URL de redirecionamento, faça qualquer tratamento adicional aqui
                     // Por exemplo, exibir uma mensagem de sucesso
-                    toastr.success('Formulário enviado com sucesso!', 'Sucesso');
+                    //showSuccessNotification('Formulário enviado com sucesso!', 'Sucesso');
                 }
             },
             error: function(xhr, status, error) {

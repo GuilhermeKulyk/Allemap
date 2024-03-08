@@ -14,13 +14,18 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
- 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <!-- Scripts -->
+     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
     <body>
         <div id="app">
+            @if(Session::has('message'))
+                <div class="alert {{ Session::get('alert-class', 'alert-info') }}">
+                    <h4>{{ Session::get('title', 'Default Title') }}</h4> <!-- Exibe o título -->
+                    <p>{{ Session::get('message') }}</p> <!-- Exibe a mensagem -->
+                </div>
+            @endif
+
             <!-- check if user is auth to show appropriate menu -->
             @auth
             <!-- main nav se nao estiver logado.-->
@@ -50,9 +55,7 @@
                     </div>
                 </div>
             </div>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
             <script src="https://kit.fontawesome.com/990eb888cd.js" crossorigin="anonymous"></script> 
     </body>
 </html>
