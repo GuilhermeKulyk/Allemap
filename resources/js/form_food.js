@@ -129,7 +129,6 @@ $(document).ready(function() {
         formData.push({ name: "foodIngredients", value: JSON.stringify(foodIngredients) });
 
         // Enviar os dados via AJAX
-        // Enviar os dados via AJAX
         $.ajax({
             url: $(this).attr('action'), // URL especificada no atributo action do formulário
             method: $(this).attr('method'), // Método especificado no atributo method do formulário
