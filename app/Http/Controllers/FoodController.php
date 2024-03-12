@@ -113,7 +113,7 @@ class FoodController extends Controller
                 // get db errors
                 $errors['DB-error'] = ($e->getMessage());
                 Log::error('DB|ERROR: ' . $errors['DB-error'] . '|' . Auth::user()->id);
-                Notify::error("Something went wrong bro, sorry for this btw, we already know about this and it will fix soon.");
+                Notify::error("Something went wrong bro.");
                 
                 return response();
             }
@@ -164,7 +164,7 @@ class FoodController extends Controller
             'unique'                      => __("messages.validation.feedback.name.unique"), 
             'max'                         => __("messages.validation.feedback.name.max"),
             'min'                         => __("messages.validation.feedback.name.min"),
-            'foodIngredients.required'       => __('messages.validation.ingredient.required'),
+            'foodIngredients.required'    => __('messages.validation.ingredient.required'),
         ];
         
         $request->validate([$rules, $feedback]);

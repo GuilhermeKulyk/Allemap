@@ -3,6 +3,7 @@ return [
     'welcome'                => 'Seja bem vindo!',
     'about'                  => 'Sobre nós',
     'login'                  => 'Faça login para entrar',
+    'OK'                     => 'OK',
 
     /* Notifications */
     'success'   => 'Sucesso',
