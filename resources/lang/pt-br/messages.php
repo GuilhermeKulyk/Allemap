@@ -5,10 +5,10 @@ return [
     'login'                  => 'Faça login para entrar',
 
     /* Notifications */
-    'success' => 'Sucesso',
-    'error' => 'Erro',
-    'warning' => 'Atenção',
-    'info' => 'Info',
+    'success'   => 'Sucesso',
+    'error'     => 'Erro',
+    'warning'   => 'Atenção',
+    'info'      =>  'Info',
 
     /* Menu */
     'sidemenu.home'          => 'Home',
@@ -32,6 +32,7 @@ return [
     'ingredient'                                    => 'Ingrediente',
     'ingredients'                                   => 'Ingredientes',
     'add_ingredients'                               => 'Incluir ingredientes',
+    'edit_ingredients'                              => 'Editar ingredientes',
     'no_ingredients'                                => 'Sem ingredientes adicionados',
     'categories'                                    => 'Categorias',
     'ingredient_category'                           => 'Categoria de ingredientes',
@@ -42,6 +43,8 @@ return [
     'food_categories'                               => 'Categorias de alimentos',
     'foods'                                         => 'Alimentos',
     'food'                                          => 'Alimento',
+    'food.store.success'                            => 'Alimento cadastrado',
+    'food.destroy.success'                          => 'Alimento removido',
 
     
     /* Database */
@@ -54,12 +57,14 @@ return [
     /* Forms */
     'toxicity_level'                                => 'Nivel de toxidade',
     'category'                                      => 'Categoria',
+    'messages.category.select'                      => 'Selecione uma categoria',
 
     /* Validation */
     'validation.feedback.required'                  => 'O campo é obrigatório',
     'validation.feedback.category_name.unique'      => 'Já existe uma categoria cadastrada com este nome.',
     'validation.feedback.category_name.min'         => 'O campo deve ter no mínimo 3 caracteres',
     'validation.feedback.category_name.max'         => 'O campo deve ter no máximo 25 caracteres',
+    'validation.feedback.category.required'         => 'A categoria não pode ficar vazia',
     'validation.feedback.description.min'           => 'O campo descrição deve ter no mínimo 3 caracteres',
     'validation.feedback.description.max'           => 'O campo descrição deve ter no máximo 2000 caracteres',
 
@@ -71,7 +76,8 @@ return [
     "validation.feedback.toxicity.max"              => 'Insira um valor de 0 a 4',
     "validation.feedback.toxicity.required"         => 'Informe o nível de toxidade do ingrediente.',
     "validation.feedback.toxicity.invalid-number"   => 'Valor inválido.',    
-    "validation.feedback.name.required"             => 'O campo nome é obrigatório.',
+    "validation.feedback.name.required"             => 'O nome não pode ficar vazio',
+    "validation.ingredient.required"                => 'Pelo menos um ingrediente deve ser adicionado.',
 
     /* Placeholders */
     'search_category'                               => 'Buscar categoria',

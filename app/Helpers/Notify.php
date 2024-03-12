@@ -33,13 +33,10 @@ class Notify
      * @param string $message The notification message.
      * @return void
      */
-    public static function success($title, $message)
+    public static function success($msg): void
     {
-        toastr()->success($message, $title ?: __('messages.words.success'), [
-            'iconClass' => 'toast-success-icon',
-            'backgroundClass' => 'toast-success-background',
-            'timeOut' => '0',
-        ]);
+        $title = __('messages.success') . "!";
+        flash()->addFlash('success', $msg, $title);
     }
 
     /**
@@ -49,12 +46,10 @@ class Notify
      * @param string $message The notification message.
      * @return void
      */
-    public static function warning($title, $message)
+    public static function warning($msg)
     {
-        toastr()->warning($message, $title ?: __('messages.words.warning'), [
-            'iconClass' => 'toast-warning-icon',
-            'backgroundClass' => 'toast-warning-background'
-        ]);
+        $title = __('messages.alert') . "!";
+        flash()->addFlash('success', $msg, $title);
     }
 
     /**
@@ -64,11 +59,9 @@ class Notify
      * @param string $message The notification message.
      * @return void
      */
-    public static function error($title, $message)
+    public static function error($message)
     {
-        toastr()->error($message, $title ?: __('messages.words.error'), [
-            'iconClass' => 'toast-error-icon',
-            'backgroundClass' => 'toast-error-background'
-        ]);
+        $title = __('messages.error') . "!";
+        flash()->addFlash('success', $msg, $title);
     }
 }

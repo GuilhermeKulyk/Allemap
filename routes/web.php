@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 | HOME
 |--------------------------------------------------------------------------
 */
-
 Route::get('/', function () {
     return redirect()->route('home');
 });
@@ -20,7 +19,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 | AUTH
 |--------------------------------------------------------------------------
 */
-
 Auth::routes();
 
 /* 
@@ -28,7 +26,6 @@ Auth::routes();
 |   INGREDIENT CATEGORY
 | ---------------------------------------------------------------------------------
 */
-
 Route::prefix('ingredient-category')->group(function () {
     Route::get('/', [App\Http\Controllers\IngredientCategoryController::class, 'index'])
     ->name('ingredient-category.index');
@@ -51,7 +48,6 @@ Route::post('ingredient-category/search', [App\Http\Controllers\IngredientCatego
 |   INGREDIENT
 | ---------------------------------------------------------------------------------
 */
-
 Route::resource('ingredient', 'App\Http\Controllers\IngredientController');
 //->middleware('web');
 Route::post('ingredient/search', [App\Http\Controllers\IngredientController::class, 'search'])
@@ -62,7 +58,6 @@ Route::post('ingredient/search', [App\Http\Controllers\IngredientController::cla
 |   FOOD CATEGORY
 | ---------------------------------------------------------------------------------
 */
-
 Route::resource('food-category', 'App\Http\Controllers\FoodCategoryController')
     ->middleware('auth');
 Route::post('food-category/search', [App\Http\Controllers\FoodCategoryController::class, 'search'])
@@ -73,7 +68,6 @@ Route::post('food-category/search', [App\Http\Controllers\FoodCategoryController
 | FOOD
 |--------------------------------------------------------------------------
 */
-
 Route::resource('food', 'App\Http\Controllers\FoodController')
 ->middleware('auth');
 Route::post('food/search', [App\Http\Controllers\FoodController::class, 'search'])
@@ -84,6 +78,5 @@ Route::post('food/search', [App\Http\Controllers\FoodController::class, 'search'
 | MEAL
 |--------------------------------------------------------------------------
 */
-
 Route::resource('meal', 'App\Http\Controllers\MealController')
 ->middleware('auth');

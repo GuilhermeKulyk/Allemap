@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 $(document).ready(function() {
     var includedIngredients = []; // Array para armazenar os ingredientes incluídos
 
@@ -54,7 +56,7 @@ $(document).ready(function() {
         //$('#includedIngredients').empty();
 
         // Atualizar a lista de ingredientes no formulário principal
-        updateIncludedIngredientsForm();
+        //updateIncludedIngredientsForm();
         
         // Fechar o modal
         $('#addIngredientsModal').modal('hide');
@@ -125,7 +127,6 @@ $(document).ready(function() {
         
         // Adicionar foodIngredients aos dados do formulário
         formData.push({ name: "foodIngredients", value: JSON.stringify(foodIngredients) });
-        console.log(formData);
 
         // Enviar os dados via AJAX
         // Enviar os dados via AJAX
@@ -140,7 +141,7 @@ $(document).ready(function() {
                 } else {
                     // Se não houver URL de redirecionamento, faça qualquer tratamento adicional aqui
                     // Por exemplo, exibir uma mensagem de sucesso
-                    //showSuccessNotification('Formulário enviado com sucesso!', 'Sucesso');
+  
                 }
             },
             error: function(xhr, status, error) {

@@ -31,19 +31,21 @@
                         <div class="form-group mb-3">
                             <label for="category_id" class="form-label">{{ __('messages.category') }}</label>
                             <select class="form-select" id="category_id" name="category_id">
-                                <option value="" selected disabled>{{ __('messages.words.empty') }}</option>
-                               
+                                <option placeholder="{{ __('messages.category.select') }}" value="" selected disabled>{{ __('messages.category.select') }}</option>
                                 @foreach ($userFoodCategories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                    <option value="{{ $category->id }}" {{ $food->foodCategory && $food->foodCategory->id === $category->id ? 'selected' : '' }}>
+                                        {{ $category->category_name }}
+                                    </option>
                                 @endforeach
+                                
+                            
                             </select>
                         </div>
-
 
                         <!-- Seção para listar ingredientes -->
                         <label for="mainIngredientList" class="form-label">{{ __('messages.ingredients') }}</label><br>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addIngredientsModal">
-                            <i class="fas fa-plus"></i> {{ __('messages.add_ingredients') }}
+                            <i class="fas fa-plus"></i> {{ __('messages.edit_ingredients') }}
                         </button>
                             <!-- No seu formulário principal -->    
                             
@@ -96,8 +98,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" href="{{ url()->previous() }}" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                <button type="button" class="btn btn-primary" id="saveIngredients">{{ __('Save') }}</button>
+                <button type="button" class="btn btn-primary" href="{{ url()->previous() }}" data-bs-dismiss="modal">{{ __('OK') }}</button>
             </div>
         </div>
     </div>

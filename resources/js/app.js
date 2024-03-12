@@ -3,6 +3,7 @@ import 'jquery';
 
 import 'bootstrap-js';
 import 'bootstrap-css';
+import 'form-food-add';
 
 // Importe o arquivo de configuração do Toastr antes do Toastr
 import 'toastr-config';
@@ -13,5 +14,6 @@ import 'toastr-css';
 // Importe o Toastr após os estilos e configuração
 import 'toastr';
 
-/* Components */
-import 'form-food-add';
+
+
+

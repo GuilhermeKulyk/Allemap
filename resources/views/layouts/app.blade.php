@@ -19,12 +19,7 @@
 </head>
     <body>
         <div id="app">
-            @if(Session::has('message'))
-                <div class="alert {{ Session::get('alert-class', 'alert-info') }}">
-                    <h4>{{ Session::get('title', 'Default Title') }}</h4> <!-- Exibe o título -->
-                    <p>{{ Session::get('message') }}</p> <!-- Exibe a mensagem -->
-                </div>
-            @endif
+
 
             <!-- check if user is auth to show appropriate menu -->
             @auth

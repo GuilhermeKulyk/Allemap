@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\FoodCategory;
 use App\Models\FoodIngredient;
 use App\Models\Food;
 use App\Models\User;
 use App\Helpers\Notify;
-use Illuminate\Support\Facades\Session;
+use App\Helpers\Valida;
 
 class FoodController extends Controller
 {
@@ -21,8 +22,7 @@ class FoodController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   
-    //Notify::success('Titulo', "Mensagem aqui!!");
+    {          
         $results = DB::table('foods')
             ->where('user_id', Auth::user()->id)
             ->orderBy('name')
@@ -44,10 +44,10 @@ class FoodController extends Controller
      */
     public function create()
     {   
-        Notify::success('Bem certinho', 'Boto fe meu');
+        
         $food = new Food(); // Criar uma nova instância do modelo Food
-        $user = User::find(Auth::user()->id);
-        $userFoodCategories = $user->foodCategories;
+        $user = User::find(Auth::user()->id); // get user
+        $userFoodCategories = $user->foodCategories; //get userfoodcategories
         $userIngredients = $user->ingredients()->get();
 
         //dd($user->ingredients()->get);
@@ -65,32 +65,9 @@ class FoodController extends Controller
      */
     public function store(Request $request, Food $food)
     {       
-        $rules = [
-            'name' => 'required|string|min:3|max:255|unique:foods',
-            'category_id' => 'required|exists:food_categories,id'
-        ];        
-
-        $feedback = [
-            'required'               => __("messages.validation.feedback.required"),
-            'unique'            => __("messages.validation.feedback.name.unique"), 
-            'max'                    => __("messages.validation.feedback.name.max"),
-            'min'               => __("messages.validation.feedback.name.min"),
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $feedback);
+        Valida::v($request, 'food-store');
         
-        // Verifique se a validação falhou
-        if ($validator->fails()) {
-            // Mapeie os erros para as mensagens personalizadas
-            $errors = [];
-            foreach ($validator->errors()->all() as $error) {
-                $errors[] = $error;
-            }
-
-            // Retorne a resposta com os erros de validação
-            return response()->json(['errors' => $errors], 422);
-        }
-      
+        // saaving food
         $food->name = $request->input('name');
         $food->category_id = $request->input('category_id');
         $food->user_id = Auth::user()->id;
@@ -110,16 +87,14 @@ class FoodController extends Controller
 
             // Salvando o FoodIngredient no banco de dados
             $foodIngredient->save();
+            //flash()->addFlash('success', $msg, $title);
         }
-        
-        Log::info('Food STORE: ' . $food);
-        Log::info('User: ' . Auth::user()->id);   
 
-        $title = __('messages.words.success');
-        $message = __('messages.notify.food.added.success');
+        // disparando a notificação
+        $msg = __('messages.food.store.success');
+        Notify::success($msg);
 
-        Session::flash('success', $title . $message);
-        
+        // retornando com rota setada
         return response()->json(['redirect_url' => route('food.index')]);
     }
 
@@ -137,11 +112,10 @@ class FoodController extends Controller
     public function edit(Food $food)
     {         
         $user = User::find(Auth::user()->id);
-
         $userFoodCategories = $user->foodCategories;
-        $userIngredients = $user->ingredients()->get();
+        $userIngredients = $user->ingredients()->get();        
 
-        return view('app.food.create', 
+        return view('app.food.edit', 
         [
             'food'                => $food, 
             'user'                => $user,
@@ -156,18 +130,41 @@ class FoodController extends Controller
     public function update(Request $request, Food $food)
     {
         $rules = [
-            'name' => 'required|string|min:3|max:255|unique',
-            'category_id' => 'required|exists:food_categories,id'
-        ];
+            'name'              => 'required|string|min:3|max:255|unique:foods',
+            'category_id'       => 'required|exists:food_categories,id',
+            'foodIngredients'   => 'required', // Verifica se é um array
+        ];        
 
         $feedback = [
-            'required'               => __("messages.validation.feedback.required"),
-            'name.unique'            => __("messages.validation.feedback.name.unique"), 
-            'max'                    => __("messages.validation.feedback.name.max"),
-            'name.min'               => __("messages.validation.feedback.name.min"),
+            'name.required'               => __("messages.validation.feedback.name.required"),
+            'category_id.required'        => __("messages.validation.feedback.category.required"),
+            'unique'                      => __("messages.validation.feedback.name.unique"), 
+            'max'                         => __("messages.validation.feedback.name.max"),
+            'min'                         => __("messages.validation.feedback.name.min"),
+            'foodIngredients.required'       => __('messages.validation.ingredient.required'),
         ];
+        
+        $request->validate([$rules, $feedback]);
 
-        //$request->validate([$rules, $feedback]);
+        $validator = Validator::make($request->all(), $rules, $feedback);
+        
+        // Verifique se a validação falhou
+        if ($validator->fails()) {
+            // Mapeie os erros para as mensagens personalizadas
+            $errors = [];
+            foreach ($validator->errors()->all() as $error) {
+                $errors[] = $error;
+            }
+
+            // Configure a notificação flash com os erros de validação
+            foreach ($errors as $error) {
+                $title = __('messages.error');
+                flash()->addFlash('error', $error, $title);
+            }
+
+            // Retorne a resposta com os erros de validação
+            return response()->json(['redirect_url' => route('food.index')]);
+        }
 
         try 
         {
@@ -193,7 +190,8 @@ class FoodController extends Controller
     public function destroy(Food $food)
     {
         $food->delete();
-        return redirect()->route('food.index')->with('success', 'Food deleted successfully');
+        Notify::success(__('messages.food.destroy.success'));
+        return redirect()->route('food.index');
     }
 
         /**

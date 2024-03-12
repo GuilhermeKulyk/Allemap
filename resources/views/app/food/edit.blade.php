@@ -10,8 +10,7 @@
 
 @component('app.food._components.form', [
     'food' => $food, 
-    'foodCategory' => $foodCategory,
-    'foodCategories' => $foodCategories,
+    'userFoodCategories' => $userFoodCategories,
     'userIngredients' => $userIngredients
     // obter lista de ingredientes da comida
 ])

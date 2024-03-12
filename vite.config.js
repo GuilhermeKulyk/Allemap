@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import path from 'path';
 
 export default defineConfig({
     plugins: [
@@ -14,7 +15,7 @@ export default defineConfig({
     resolve: {
         alias: {
             // Primeiro, definimos o jQuery
-            'jquery': 'jquery/dist/jquery.min.js',
+            'jquery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
 
             // Em seguida, definimos o Bootstrap, que depende do jQuery
             'bootstrap-js': 'bootstrap/dist/js/bootstrap.bundle.min.js',
@@ -24,7 +25,10 @@ export default defineConfig({
             'toastr': '/node_modules/toastr/build/toastr.min.js',
             'toastr-css': '/node_modules/toastr/build/toastr.min.css',
             'toastr-config': '/resources/js/toastr-config.js',
+
+            // Components and stuff
             'form-food-add': '/resources/js/form_food.js',
+            
         }
     }   
 });
