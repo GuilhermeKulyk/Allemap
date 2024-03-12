@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -15,73 +16,98 @@ class Valida
 {
     protected $feedback = [];
     protected $rules = [];
+    protected $errors = [];
 
     public function __construct(Request $r, string $f) // request and the current form
     {
-        v($r, $f); // valida ja na construção da classe
+        $this->setConfig($r, $f); // valida ja na construção da classe
     }
 
-    private function v(Request $r, string $f)
+    public function setFeedback($feedback) {
+        $this->feedback = $feedback ;
+    }
+
+    public function getFeedback() {
+        return $this->feedback;
+    }
+
+    public function setRules($rules) {
+        $this->rules = $rules;
+    }
+    public function getRules() {
+        return $this->rules;
+    }
+
+    public function setErrors($errors) {
+        return $this->errors;
+    }
+
+    public function getErrors() {
+        return $this->errors;
+    }
+
+    private function setConfig(Request $r, string $f): void
     {
-        switch ($form) 
+        switch ($f) 
         {
             case 'food-store':
-                $this->rules = [
+
+                $formRules = [
                     'name'              => 'required|string|min:3|max:255|unique:foods',
                     'category_id'       => 'required|exists:food_categories,id',
-                    'foodIngredients'   => 'required', // Verifica se é um array
+                    'foodIngredients'   => 'required', 
                 ];
 
-                $this->$feedback = [
+                $formFeedback = [
                     'name.required'               => __("messages.validation.feedback.name.required"),
                     'category_id.required'        => __("messages.validation.feedback.category.required"),
                     'unique'                      => __("messages.validation.feedback.name.unique"), 
                     'max'                         => __("messages.validation.feedback.name.max"),
-                    'min'                         => __("messages.validation.feedback.name.min"),
-                    'foodIngredients.required'       => __('messages.validation.ingredient.required'),
+                    'name.min'                         => __("messages.validation.feedback.name.min"),
+                    'foodIngredients.required'    => __('messages.validation.ingredient.required'),
                 ];
-                break;
+
+            break;
 
             case 'food-update':
-                $this->$rules = [
+
+                $formRules = [
                     'name'              => 'required|string|min:3|max:255|unique:foods',
                     'category_id'       => 'required|exists:food_categories,id',
-                    'foodIngredients'   => 'required', // Verifica se é um array
+                    'foodIngredients'   => 'required', 
                 ];        
         
-                $feedback = [
+                $formFeedback = [
                     'name.required'               => __("messages.validation.feedback.name.required"),
                     'category_id.required'        => __("messages.validation.feedback.category.required"),
                     'unique'                      => __("messages.validation.feedback.name.unique"), 
                     'max'                         => __("messages.validation.feedback.name.max"),
                     'min'                         => __("messages.validation.feedback.name.min"),
-                    'foodIngredients.required'       => __('messages.validation.ingredient.required'),
+                    'foodIngredients.required'    => __('messages.validation.ingredient.required'),
                 ];
-                break;
+            break;
         }
         
-        errorCheck($r, $f);
+        $this->setRules($formRules);
+        $this->setFeedback($formFeedback);
     }
 
-    private function errorCheck(Request $r, Validator $v) 
+    public function errorCheck(Request $r)
     {
-        $r = Validator::make($request->all(), $rules, $feedback);
+        $v = Validator::make($r->all(), $this->getRules(), $this->getFeedback());
+    
+        if ($v->fails()) 
+        {
+            $errors = $v->errors()->all();
+            $this->setErrors($errors);
 
-        // Verifique se a validação falhou
-        if ($validator->fails()) {
-            // Mapeie os erros para as mensagens personalizadas
-            $errors = [];
-            foreach ($validator->errors()->all() as $error) {
-                $errors[] = $error;
-            }
-
-            // Configure a notificação flash com os erros de validação
             foreach ($errors as $error) {
                 Notify::error($error);
             }
-
-            // Retorne a resposta com os erros de validação
-            return response()->json(['redirect_url' => route('food.index')]);
+    
+            return $errors;
         }
+    
+        return true;
     }
 }

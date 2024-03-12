@@ -1,3 +1,16 @@
+@php
+    $errors = session('errors'); 
+    session()->forget('errors');
+@endphp
+@if($errors)
+    <div class="alert alert-danger" role="alert">
+        @foreach($errors as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-9">
@@ -23,7 +36,7 @@
                         <!-- Campo para adicionar ou editar o nome do alimento -->
                         <div class="form-group mb-3">
                             <label for="name" class="form-label">{{ __('messages.words.name') }}</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ $food->name ?? old('name') }}">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ isset($food->id) ? $food->name : (old('name') ?? '') }}">
                             <!-- Aqui você pode incluir mensagens de erro, se aplicável -->
                         </div>
 
@@ -37,8 +50,6 @@
                                         {{ $category->category_name }}
                                     </option>
                                 @endforeach
-                                
-                            
                             </select>
                         </div>
 
@@ -48,9 +59,8 @@
                             <i class="fas fa-plus"></i> {{ __('messages.edit_ingredients') }}
                         </button>
                             <!-- No seu formulário principal -->    
-                            
                             <ul id="mainIngredientList" class="list-group mt-2">   
-                                @if (!empty($food->ingredients()))                         
+                            @if (!empty($food->ingredients()))                         
                                 @foreach ($food->ingredients as $ingredient)
                                     <li class="list-group-item" data-id="{{ $ingredient->id }}">{{ $ingredient->name }}</li>
                                 @endforeach
@@ -65,7 +75,7 @@
 
                         <!-- Botões -->
                         <div class="d-flex justify-content-between mt-2">
-                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">{{ __('messages.words.cancel') }}</button>
+                            <button type="button" class="btn btn-secondary me-2" onclick="window.history.back();">{{ __('messages.words.cancel') }}</button>
                             <button type="submit" class="btn btn-primary">{{ __('messages.words.register') }}</button>
                         </div>
                     </form>

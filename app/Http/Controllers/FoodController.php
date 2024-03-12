@@ -65,37 +65,59 @@ class FoodController extends Controller
      */
     public function store(Request $request, Food $food)
     {       
-        Valida::v($request, 'food-store');
-        
-        // saaving food
-        $food->name = $request->input('name');
-        $food->category_id = $request->input('category_id');
-        $food->user_id = Auth::user()->id;
-        $food->save();
-        
-        // Decodificando os IDs dos ingredientes do JSON para um array PHP
-        $ingredientIds = json_decode($request->input('foodIngredients'), true);
-
-        // Iterando sobre os IDs dos ingredientes
-        foreach ($ingredientIds as $ingredientId) {
-            // Criando uma nova instância de FoodIngredient
-            $foodIngredient = new FoodIngredient();
-
-            // Definindo os atributos do FoodIngredient
-            $foodIngredient->food_id = $food->id; 
-            $foodIngredient->ingredient_id = $ingredientId;
-
-            // Salvando o FoodIngredient no banco de dados
-            $foodIngredient->save();
-            //flash()->addFlash('success', $msg, $title);
+        // create valida objt
+        $validator = new Valida($request, 'food-store');
+        $result = $validator->errorCheck($request);
+          // validation fail
+        if (is_array($result)) {
+            session(['errors' => $result]);
+            return response()->json([
+                'formData' => $request->all(), // Retorna os dados do formulário
+                'redirect_url' => route('food.create')
+            ]); 
         }
+        else {
+            try {
+                // saaving food
+                $food->name = $request->input('name');
+                $food->category_id = $request->input('category_id');
+                $food->user_id = Auth::user()->id;
+                $food->save();
+                
+                // Decodificando os IDs dos ingredientes do JSON para um array PHP
+                $ingredientIds = json_decode($request->input('foodIngredients'), true);
 
-        // disparando a notificação
-        $msg = __('messages.food.store.success');
-        Notify::success($msg);
+                // Iterando sobre os IDs dos ingredientes
+                foreach ($ingredientIds as $ingredientId) {
 
-        // retornando com rota setada
-        return response()->json(['redirect_url' => route('food.index')]);
+                    // Criando uma nova instância de FoodIngredient
+                    $foodIngredient = new FoodIngredient();
+
+                    // Definindo os atributos do FoodIngredient
+                    $foodIngredient->food_id = $food->id; 
+                    $foodIngredient->ingredient_id = $ingredientId;
+
+                    // Salvando o FoodIngredient no banco de dados
+                    $foodIngredient->save();
+                    //flash()->addFlash('success', $msg, $title);
+                }
+
+                // disparando a notificação
+                $msg = __('messages.food.store.success');
+                Notify::success($msg);
+
+                // retornando com rota setada
+                return response()->json(['redirect_url' => route('food.index')]);
+
+            } catch (\Illuminate\Database\QueryException $e) {
+                // get db errors
+                $errors['DB-error'] = ($e->getMessage());
+                Log::error('DB|ERROR: ' . $errors['DB-error'] . '|' . Auth::user()->id);
+                Notify::error("Something went wrong bro, sorry for this btw, we already know about this and it will fix soon.");
+                
+                return response();
+            }
+        }
     }
 
     /**
@@ -113,7 +135,8 @@ class FoodController extends Controller
     {         
         $user = User::find(Auth::user()->id);
         $userFoodCategories = $user->foodCategories;
-        $userIngredients = $user->ingredients()->get();        
+        $userIngredients = $user->ingredients()->get();
+        $foodIngredients = $food->ingredients()->get();
 
         return view('app.food.edit', 
         [

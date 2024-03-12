@@ -49,7 +49,7 @@ class Notify
     public static function warning($msg)
     {
         $title = __('messages.alert') . "!";
-        flash()->addFlash('success', $msg, $title);
+        flash()->addFlash('warning', $msg, $title);
     }
 
     /**
@@ -59,9 +59,9 @@ class Notify
      * @param string $message The notification message.
      * @return void
      */
-    public static function error($message)
+    public static function error($msg)
     {
         $title = __('messages.error') . "!";
-        flash()->addFlash('success', $msg, $title);
+        flash()->addFlash('error', $msg, $title);
     }
 }

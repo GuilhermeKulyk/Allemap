@@ -136,13 +136,9 @@ $(document).ready(function() {
             data: formData, // Dados do formulário
             success: function(response) {
                 // Se houver uma URL de redirecionamento na resposta, redirecione para ela
-                if (response.redirect_url) {
+
                     window.location.href = response.redirect_url;
-                } else {
-                    // Se não houver URL de redirecionamento, faça qualquer tratamento adicional aqui
-                    // Por exemplo, exibir uma mensagem de sucesso
-  
-                }
+
             },
             error: function(xhr, status, error) {
                 // Lidar com erros de envio
