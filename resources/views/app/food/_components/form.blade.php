@@ -20,24 +20,18 @@
                                     @else <!-- Create -->
                                         <div class="card-header">{{ __("messages.words.register") }} {{ __("messages.food") }}</div>
                                     @endif
-
                                     <div class="card-body">
-                                        <form id='form-create-food'  
-                                            @if ($food->exists)
-                                                action="{{ route('food.update', ['food' => $food->id]) }}"
-                                            @else 
-                                                action="{{ route('food.store') }}"
-                                            @endif
-                                            method='post'>
+                                    @if ($food->exists)
+                                        <form  id='form-edit-food' action="{{ route('food.update', ['food' => $food->id]) }}">
+                                    @else 
+                                        <form id='form-create-food' action="{{ route('food.store') }}">
+                                    @endif
                                             @csrf
-                                            @if ($food->exists)
-                                                @method('PUT')
-                                            @endif
                                             <!-- Campo para adicionar ou editar o nome do alimento -->
                                             <div class="form-group mb-3">
                                                 <label for="name" class="form-label">{{ __('messages.words.name') }}</label>
                                                 <input type="text" class="form-control" id="name" name="name" value="{{ isset($food->id) ? $food->name : (old('name') ?? '') }}">
-                                                <!-- Aqui você pode incluir mensagens de erro, se aplicável -->
+                                                <!-- Aqui incluir mensagens de erro -->
                                             </div>
 
                                             <!-- Seção para selecionar a categoria do alimento -->

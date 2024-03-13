@@ -33,7 +33,8 @@
             @endphp
             @component('app.food._components.list', [
                 'title' =>  __('messages.words.name'),
-                'results' => $results
+                'results' => $results,
+                'foods' => $foods
             ])
             @endcomponent
         </div>

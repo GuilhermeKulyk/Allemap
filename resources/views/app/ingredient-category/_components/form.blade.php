@@ -10,7 +10,7 @@
                 @endif          
                 <div class="card-body">
                     @if ($ingredientCategory->id) <!-- edit -->
-                        <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('ingredient-category.update' , ['id' => $ingredientCategory->id] ) }}" method='post'>
+                        <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('ingredient-category.update' , ['ingredientCategory' => $ingredientCategory->id] ) }}" method='post'>
                     @else <!-- Create -->
                          <form id='form-{{ str_replace(".", "-", Route::current()->getName()) }}' action="{{ route('ingredient-category.store') }}" method='post' >
                     @endif

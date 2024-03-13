@@ -40,4 +40,13 @@ class Food extends Model
     {
         return $this->hasMany(FoodIngredient::class);
     }
+
+    /**
+     * Updating food ingredient list
+     */
+    public function syncIngredients(array $ingredientIds)
+    {
+        $this->ingredients()->sync($ingredientIds);
+    }
+
 }

@@ -93,7 +93,7 @@ class IngredientCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, IngredientCategory $ingredientCategory, int $id)
+    public function update(Request $request, IngredientCategory $ingredientCategory)
     {
         $rules = [
             'category_name' => 'required|min:3|max:25',

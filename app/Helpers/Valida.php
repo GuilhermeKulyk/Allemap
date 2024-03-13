@@ -53,7 +53,7 @@ class Valida
             case 'food-store':
 
                 $formRules = [
-                    'name'              => 'required|string|min:3|max:255|unique:foods',
+                    'name'              => 'required|string|min:3|max:255',
                     'category_id'       => 'required|exists:food_categories,id',
                     'foodIngredients'   => 'required', 
                 ];
@@ -72,17 +72,17 @@ class Valida
             case 'food-update':
 
                 $formRules = [
-                    'name'              => 'required|string|min:3|max:255|unique:foods',
+                    'name'              => 'required|string|min:3|max:255|',
                     'category_id'       => 'required|exists:food_categories,id',
                     'foodIngredients'   => 'required', 
-                ];        
-        
+                ];
+
                 $formFeedback = [
                     'name.required'               => __("messages.validation.feedback.name.required"),
                     'category_id.required'        => __("messages.validation.feedback.category.required"),
                     'unique'                      => __("messages.validation.feedback.name.unique"), 
                     'max'                         => __("messages.validation.feedback.name.max"),
-                    'min'                         => __("messages.validation.feedback.name.min"),
+                    'name.min'                    => __("messages.validation.feedback.name.min"),
                     'foodIngredients.required'    => __('messages.validation.ingredient.required'),
                 ];
             break;

@@ -44,9 +44,6 @@ return [
     'food_categories'                               => 'Categorias de alimentos',
     'foods'                                         => 'Alimentos',
     'food'                                          => 'Alimento',
-    'food.store.success'                            => 'Alimento cadastrado',
-    'food.destroy.success'                          => 'Alimento removido',
-
     
     /* Database */
     'category_name'                                 => 'Nome',
@@ -80,10 +77,15 @@ return [
     "validation.feedback.name.required"             => 'O nome não pode ficar vazio.',
     "validation.ingredient.required"                => 'Pelo menos um ingrediente deve ser adicionado.',
 
+    /* Food form */ 
+    'food.store.success'                            => 'Alimento cadastrado.',
+    'food.destroy.success'                          => 'Alimento removido.',
+    "food.update.success"                           => 'Alimento atualizado.',
+
     /* Placeholders */
     'search_category'                               => 'Buscar categoria',
 
     /* Nofications */
-    'notification.success'        => 'Dados cadastrados com sucesso',
-    'notify.food.added.success'   => 'Alimento cadastrado.',
+    'notification.success'                          => 'Dados cadastrados com sucesso',
+    'notify.food.added.success'                     => 'Alimento cadastrado.',
 ];

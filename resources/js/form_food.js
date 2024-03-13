@@ -11,8 +11,8 @@ $(document).ready(function() {
         var ingredientId = $(this).data('id');
         var ingredientName = $(this).text().trim();
         $('#includedIngredients').append('<li class="list-group-item bg-success" data-id="' + ingredientId + '">' + ingredientName + '</li>');
+        // fila o array de ingredients ja inclusos na comida
         includedIngredients.push({ id: ingredientId, name: ingredientName });
-        //console.log(includedIngredients);
         hideIncludedIngredients(includedIngredients);
     });
 
@@ -61,11 +61,6 @@ $(document).ready(function() {
 
     // Event handler for clicking the save ingredients button
     $('#saveIngredients').on('click', function() {
-        // Clear the list of ingredients in the modal
-        //$('#includedIngredients').empty();
-        // Update the list of ingredients in the main form
-        //updateIncludedIngredientsForm();
-        // Hide the modal
         $('#addIngredientsModal').modal('hide');
     });
 
@@ -112,7 +107,6 @@ $(document).ready(function() {
         updateIncludedIngredientsModal();
         updateIncludedIngredientsForm();
         removeIngredient(ingredientId);
-        //console.log(foodIngredients);
         $('#ingredientList li:contains("' + ingredientName + '")').show();
     });
 
@@ -140,15 +134,44 @@ $(document).ready(function() {
         
         // Add foodIngredients to form data
         formData.push({ name: "foodIngredients", value: JSON.stringify(foodIngredients) });
-
+        console.log($(this).attr('action'))
         // Send data via AJAX
         $.ajax({
             url: $(this).attr('action'), // URL specified in the form action attribute
-            method: $(this).attr('method'), // Method specified in the form method attribute
+            method: 'POST', // Method specified in the form method attribute
             data: formData, // Form data
             success: function(response) {
                 // If there is a redirection URL in the response, redirect to it
                 window.location.href = response.redirect_url;
+            },
+            error: function(xhr, status, error) {
+                // Handle submission errors
+                console.error('An error occurred while sending the data:', error);
+            }
+        });  
+    }); 
+
+    // Event handler for form submission
+    $('#form-edit-food').submit(function(event) {
+
+        // Prevent default form submission behavior
+        event.preventDefault();
+
+        // Get form data
+        var formData = $(this).serializeArray();
+        
+        // Add foodIngredients to form data
+        formData.push({ name: "foodIngredients", value: JSON.stringify(foodIngredients) });
+
+        // Send data via AJAX
+        $.ajax({
+            url: $(this).attr('action'), // URL specified in the form action attribute
+            method: 'PUT', // Method specified in the form method attribute
+            data: formData, // Form data
+            success: function(response) {
+                // If there is a redirection URL in the response, redirect to it
+                window.location.href = response.redirect_url;
+                console.log('SUSSA!');
             },
             error: function(xhr, status, error) {
                 // Handle submission errors

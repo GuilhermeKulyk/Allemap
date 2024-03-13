@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+
 use App\Models\FoodCategory;
 use App\Models\FoodIngredient;
 use App\Models\Food;
 use App\Models\User;
+
 use App\Helpers\Notify;
 use App\Helpers\Valida;
 
@@ -29,9 +31,13 @@ class FoodController extends Controller
             ->get()
             ->toArray(); 
 
+        $foods = Food::where('user_id', Auth::user()->id)
+            ->orderBy('name')
+            ->get();   
+
         if (isset($results)) 
         {
-            return view('app.food.index',  compact('results'));
+            return view('app.food.index',  compact('results', 'foods'));
         } 
         else 
         {
@@ -76,37 +82,18 @@ class FoodController extends Controller
                 'redirect_url' => route('food.create')
             ]); 
         }
-        else {
+        else 
+        {
             try {
                 // saaving food
                 $food->name = $request->input('name');
                 $food->category_id = $request->input('category_id');
                 $food->user_id = Auth::user()->id;
                 $food->save();
-                
-                // Decodificando os IDs dos ingredientes do JSON para um array PHP
                 $ingredientIds = json_decode($request->input('foodIngredients'), true);
 
-                // Iterando sobre os IDs dos ingredientes
-                foreach ($ingredientIds as $ingredientId) {
+                $this->saveFoodIngredients($request, $food, $ingredientIds);
 
-                    // Criando uma nova instância de FoodIngredient
-                    $foodIngredient = new FoodIngredient();
-
-                    // Definindo os atributos do FoodIngredient
-                    $foodIngredient->food_id = $food->id; 
-                    $foodIngredient->ingredient_id = $ingredientId;
-
-                    // Salvando o FoodIngredient no banco de dados
-                    $foodIngredient->save();
-                    //flash()->addFlash('success', $msg, $title);
-                }
-
-                // disparando a notificação
-                $msg = __('messages.food.store.success');
-                Notify::success($msg);
-
-                // retornando com rota setada
                 return response()->json(['redirect_url' => route('food.index')]);
 
             } catch (\Illuminate\Database\QueryException $e) {
@@ -153,59 +140,53 @@ class FoodController extends Controller
      */
     public function update(Request $request, Food $food)
     {
-        $rules = [
-            'name'              => 'required|string|min:3|max:255|unique:foods',
-            'category_id'       => 'required|exists:food_categories,id',
-            'foodIngredients'   => 'required', // Verifica se é um array
-        ];        
-
-        $feedback = [
-            'name.required'               => __("messages.validation.feedback.name.required"),
-            'category_id.required'        => __("messages.validation.feedback.category.required"),
-            'unique'                      => __("messages.validation.feedback.name.unique"), 
-            'max'                         => __("messages.validation.feedback.name.max"),
-            'min'                         => __("messages.validation.feedback.name.min"),
-            'foodIngredients.required'    => __('messages.validation.ingredient.required'),
-        ];
+        Log::info('aqui');
+        // validation
+        $validator = new Valida($request, 'food-update');
+        $result = $validator->errorCheck($request);
         
-        $request->validate([$rules, $feedback]);
-
-        $validator = Validator::make($request->all(), $rules, $feedback);
-        
-        // Verifique se a validação falhou
-        if ($validator->fails()) {
-            // Mapeie os erros para as mensagens personalizadas
-            $errors = [];
-            foreach ($validator->errors()->all() as $error) {
-                $errors[] = $error;
-            }
-
-            // Configure a notificação flash com os erros de validação
-            foreach ($errors as $error) {
-                $title = __('messages.error');
-                flash()->addFlash('error', $error, $title);
-            }
-
-            // Retorne a resposta com os erros de validação
-            return response()->json(['redirect_url' => route('food.index')]);
+          // if validation fail
+        if (is_array($result)) {
+            session(['errors' => $result]);
+            return response()->json([
+                'formData' => $request->all(), // Retorna os dados do formulário
+                'redirect_url' => route('food.create')
+            ]); 
         }
-
-        try 
+        else 
         {
-            $food->where('user_id', Auth::user()->id)
-                ->whereId($food->id)
-                ->update([
-                    'name'          => $request->input('name'),
-                    'category_id'   => $request->input('category_id')
+            try {
+                // updating food
+                $food->where('user_id', Auth::user()->id)
+                    ->whereId($food->id)
+                    ->update([
+                        'name'          => $request->input('name'),
+                        'category_id'   => $request->input('category_id')
                 ]);
 
-        } catch (\Illuminate\Database\QueryException $e) {
-            $errors['DB-error'] = ($e->getMessage());
-            echo $errors['DB-error'];
-            Log::info('DB ERROR: ' . $errors['DB-error']);
-        }
+                //remove ingredients -> food_ingredients
+                $food->ingredients()->detach();
 
-        return redirect()->route('food.index')->with('success', 'Food updated successfully');
+                // get food ingredients list from js
+                $ingredientIds = json_decode($request->input('foodIngredients'), true);
+
+                //now filling the objt with the new ingredient list
+                $food->syncIngredients($ingredientIds);
+
+                // saving 
+                $this->saveFoodIngredients($request, $food, $ingredientIds);
+
+                return response()->json(['redirect_url' => route('food.index')]);
+
+            } catch (\Illuminate\Database\QueryException $e) 
+            {
+                $errors['DB-error'] = ($e->getMessage());
+                Log::error('UPDATE FOOD DB ERROR: ' . $errors['DB-error']);
+                Notify::error("Something went wrong. Try again in a few moments.");
+
+                return response();
+            }
+        }
     }
 
     /**
@@ -237,5 +218,27 @@ class FoodController extends Controller
         {
             return view('app.food.index');
         } 
+    }
+
+    private function saveFoodIngredients(Request $request, Food $food, $ingredientIds) 
+    {
+        // Iterando sobre os IDs dos ingredientes
+        foreach ($ingredientIds as $ingredientId) 
+        {
+            // Criando uma nova instância de FoodIngredient
+            $foodIngredient = new FoodIngredient();
+
+            // Definindo os atributos do FoodIngredient
+            $foodIngredient->food_id = $food->id; 
+            $foodIngredient->ingredient_id = $ingredientId;
+
+            // Salvando o FoodIngredient no banco de dados
+            $foodIngredient->save();
+            //flash()->addFlash('success', $msg, $title);
+        }
+
+        // disparando a notificação
+        $msg = __('messages.food.store.success');
+        Notify::success($msg);
     }
 }
