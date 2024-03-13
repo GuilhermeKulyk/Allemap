@@ -143,7 +143,8 @@ class FoodController extends Controller
             'food'                => $food, 
             'user'                => $user,
             'userFoodCategories'  => $userFoodCategories,
-            'userIngredients'     => $userIngredients
+            'userIngredients'     => $userIngredients,
+            'foodIngredients'     => $foodIngredients
         ]);
     }
 

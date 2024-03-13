@@ -1,9 +1,20 @@
 import $ from 'jquery';
 
 $(document).ready(function() {
-    var includedIngredients = []; // Array to store included ingredients
 
-    var foodIngredients = []; // Array to store food ingredients
+    var includedIngredients = [];
+    var foodIngredients = [];
+
+    // no carregar da pagina ja carrega os ingredientes inclusos da lista principal.
+    $('#includedIngredients').empty();
+    $('#mainIngredientList li').each(function() {
+        var ingredientId = $(this).data('id');
+        var ingredientName = $(this).text().trim();
+        $('#includedIngredients').append('<li class="list-group-item bg-success" data-id="' + ingredientId + '">' + ingredientName + '</li>');
+        includedIngredients.push({ id: ingredientId, name: ingredientName });
+        //console.log(includedIngredients);
+        hideIncludedIngredients(includedIngredients);
+    });
 
     // Function to update the list of included ingredients in the modal
     function updateIncludedIngredientsModal() {
@@ -51,12 +62,9 @@ $(document).ready(function() {
     // Event handler for clicking the save ingredients button
     $('#saveIngredients').on('click', function() {
         // Clear the list of ingredients in the modal
-
         //$('#includedIngredients').empty();
-
         // Update the list of ingredients in the main form
         //updateIncludedIngredientsForm();
-
         // Hide the modal
         $('#addIngredientsModal').modal('hide');
     });
@@ -104,12 +112,18 @@ $(document).ready(function() {
         updateIncludedIngredientsModal();
         updateIncludedIngredientsForm();
         removeIngredient(ingredientId);
-        console.log(foodIngredients);
+        //console.log(foodIngredients);
         $('#ingredientList li:contains("' + ingredientName + '")').show();
     });
 
     // Function to hide included ingredients from the search results list
     function hideIncludedIngredientsFromSearchResults() {
+        includedIngredients.forEach(function(ingredient) {
+            $('#ingredientList li:contains("' + ingredient.name + '")').hide();
+        });
+    }
+
+    function hideIncludedIngredients() {
         includedIngredients.forEach(function(ingredient) {
             $('#ingredientList li:contains("' + ingredient.name + '")').hide();
         });
@@ -142,41 +156,4 @@ $(document).ready(function() {
             }
         });  
     }); 
-
-    // Event triggered when the edit modal is shown
-    $('#addIngredientsModal').on('show.bs.modal', function(event) {
-        // Clear the list of included ingredients
-        $('#includedIngredients').empty();
-        
-        // Check if there are ingredients associated with the food
-        console.log(foodIngredients);
-        if (foodIngredients.length > 0) {
-            // Fill the list of included ingredients with the ingredients associated with the food
-            includedIngredients.forEach(function(ingredient) {
-                $('#includedIngredients').append('<li class="list-group-item bg-success" data-id=' + ingredient.id + '>' + ingredient.name + '</li>');
-            });
-
-            // Hide included ingredients from the search results list
-            hideIncludedIngredientsFromSearchResults();
-        }
-    });
-
-    // Event triggered when the modal is shown
-    $('#addIngredientsModal').on('show.bs.modal', function(event) {
-        // Clear the list of included ingredients
-        $('#includedIngredients').empty();
-        console.log('your ass');
-    });
-
-    // Event triggered when the button to open the modal is clicked
-    $('#openModalButton').on('click', function() {
-        console.log('your ass');
-        // Clear the list of included ingredients
-        $('#includedIngredients').empty();
-        
-        // Add the ingredients that the user just added to the list of included ingredients
-        includedIngredients.forEach(function(ingredient) {
-            $('#includedIngredients').append('<li class="list-group-item bg-success" data-id=' + ingredient.id + '>' + ingredient.name + '</li>');
-        });
-    });
 });
