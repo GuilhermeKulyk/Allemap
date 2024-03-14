@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use App\Models\FoodCategory;
@@ -17,6 +17,7 @@ use App\Models\User;
 
 use App\Helpers\Notify;
 use App\Helpers\Valida;
+
 
 class FoodController extends Controller
 {
@@ -53,10 +54,10 @@ class FoodController extends Controller
         
         $food = new Food(); // Criar uma nova instância do modelo Food
         $user = User::find(Auth::user()->id); // get user
+
         $userFoodCategories = $user->foodCategories; //get userfoodcategories
         $userIngredients = $user->ingredients()->get();
 
-        //dd($user->ingredients()->get);
         return view('app.food.create', 
         [
             'food'                => $food, 
@@ -91,7 +92,7 @@ class FoodController extends Controller
                 $food->user_id = Auth::user()->id;
                 $food->save();
                 $ingredientIds = json_decode($request->input('foodIngredients'), true);
-
+                
                 $this->saveFoodIngredients($request, $food, $ingredientIds);
 
                 return response()->json(['redirect_url' => route('food.index')]);
@@ -140,11 +141,12 @@ class FoodController extends Controller
      */
     public function update(Request $request, Food $food)
     {
-        Log::info('aqui');
+
+        //Log::info($request->input('foodIngredients')->get());
         // validation
         $validator = new Valida($request, 'food-update');
         $result = $validator->errorCheck($request);
-        
+        Log::info($request->all());
           // if validation fail
         if (is_array($result)) {
             session(['errors' => $result]);
@@ -167,15 +169,21 @@ class FoodController extends Controller
                 //remove ingredients -> food_ingredients
                 $food->ingredients()->detach();
 
-                // get food ingredients list from js
-                $ingredientIds = json_decode($request->input('foodIngredients'), true);
+                // Obter o valor de 'foodIngredients' do request
+                $foodIngredientsString = $request->input('foodIngredients');
 
-                //now filling the objt with the new ingredient list
-                $food->syncIngredients($ingredientIds);
+                // Dividir a string em um array usando a vírgula como delimitador
+                $foodIngredients = explode(',', $foodIngredientsString);
+ 
+
 
                 // saving 
-                $this->saveFoodIngredients($request, $food, $ingredientIds);
+                $this->saveFoodIngredients($request, $food, $foodIngredients); 
 
+                // disparando a notificação
+                $msg = __('messages.food.update.success');
+                Notify::success($msg);
+                
                 return response()->json(['redirect_url' => route('food.index')]);
 
             } catch (\Illuminate\Database\QueryException $e) 
@@ -222,23 +230,23 @@ class FoodController extends Controller
 
     private function saveFoodIngredients(Request $request, Food $food, $ingredientIds) 
     {
-        // Iterando sobre os IDs dos ingredientes
-        foreach ($ingredientIds as $ingredientId) 
+        Log::info($ingredientIds);
+        // check if it has ingredients
+        if ($ingredientIds[0] != '' || !empty($array))
         {
-            // Criando uma nova instância de FoodIngredient
-            $foodIngredient = new FoodIngredient();
+            // Iterando sobre os IDs dos ingredientes
+            foreach ($ingredientIds as $ingredientId) 
+            {
+                // Criando uma nova instância de FoodIngredient
+                $foodIngredient = new FoodIngredient();
 
-            // Definindo os atributos do FoodIngredient
-            $foodIngredient->food_id = $food->id; 
-            $foodIngredient->ingredient_id = $ingredientId;
+                // Definindo os atributos do FoodIngredient
+                $foodIngredient->food_id = $food->id; 
+                $foodIngredient->ingredient_id = $ingredientId;
 
-            // Salvando o FoodIngredient no banco de dados
-            $foodIngredient->save();
-            //flash()->addFlash('success', $msg, $title);
+                // Salvando o FoodIngredient no banco de dados
+                $foodIngredient->save();
+            }
         }
-
-        // disparando a notificação
-        $msg = __('messages.food.store.success');
-        Notify::success($msg);
     }
 }

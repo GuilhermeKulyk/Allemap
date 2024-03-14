@@ -7,13 +7,16 @@ $(document).ready(function() {
 
     // no carregar da pagina ja carrega os ingredientes inclusos da lista principal.
     $('#includedIngredients').empty();
+    //$('#mainIngredientList').empty();
     $('#mainIngredientList li').each(function() {
         var ingredientId = $(this).data('id');
         var ingredientName = $(this).text().trim();
         $('#includedIngredients').append('<li class="list-group-item bg-success" data-id="' + ingredientId + '">' + ingredientName + '</li>');
         // fila o array de ingredients ja inclusos na comida
+        
         includedIngredients.push({ id: ingredientId, name: ingredientName });
         hideIncludedIngredients(includedIngredients);
+        addIngredient(ingredientId)
     });
 
     // Function to update the list of included ingredients in the modal
@@ -159,10 +162,11 @@ $(document).ready(function() {
 
         // Get form data
         var formData = $(this).serializeArray();
-        
+        //console.log(JSON.stringify(foodIngredients));
         // Add foodIngredients to form data
-        formData.push({ name: "foodIngredients", value: JSON.stringify(foodIngredients) });
-
+        // Adicionar foodIngredients aos dados do formulário como um array
+        formData.push({ name: "foodIngredients", value: foodIngredients });
+        
         // Send data via AJAX
         $.ajax({
             url: $(this).attr('action'), // URL specified in the form action attribute

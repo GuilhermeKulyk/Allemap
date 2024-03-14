@@ -74,7 +74,6 @@ class Valida
                 $formRules = [
                     'name'              => 'required|string|min:3|max:255|',
                     'category_id'       => 'required|exists:food_categories,id',
-                    'foodIngredients'   => 'required', 
                 ];
 
                 $formFeedback = [
@@ -83,7 +82,6 @@ class Valida
                     'unique'                      => __("messages.validation.feedback.name.unique"), 
                     'max'                         => __("messages.validation.feedback.name.max"),
                     'name.min'                    => __("messages.validation.feedback.name.min"),
-                    'foodIngredients.required'    => __('messages.validation.ingredient.required'),
                 ];
             break;
         }
