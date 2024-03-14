@@ -6,10 +6,10 @@ return [
     'OK'                     => 'OK',
 
     /* Notifications */
-    'success'   => 'Sucesso',
-    'error'     => 'Erro',
-    'warning'   => 'Atenção',
-    'info'      =>  'Info',
+    'success'               => 'Sucesso',
+    'error'                 => 'Erro',
+    'warning'               => 'Atenção',
+    'info'                  =>  'Info',
 
     /* Menu */
     'sidemenu.home'          => 'Home',

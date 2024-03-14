@@ -27,6 +27,7 @@ export default defineConfig({
             'toastr-config': '/resources/js/toastr-config.js',
 
             // Components and stuff
+            'sidemenu': '/resources/js/sidemenu.js',
             'form-food-add': '/resources/js/form_food.js',
             
         }

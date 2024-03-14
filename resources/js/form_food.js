@@ -2,6 +2,16 @@ import $ from 'jquery';
 
 $(document).ready(function() {
 
+    /* SIDE MENU */
+    // Ocultar todos os submenus no carregamento da página
+
+    $('.parent').click(function() {
+        $(this).find('.submenu').slideToggle();
+      });
+
+
+    /* FOOD FORM */
+
     var includedIngredients = [];
     var foodIngredients = [];
 
@@ -183,4 +193,11 @@ $(document).ready(function() {
             }
         });  
     }); 
+
+    /* SIDEMENU */
+    // JavaScript
+
+
+  
+  
 });

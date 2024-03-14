@@ -12,35 +12,34 @@
     </li>
     <li>
       <a href="{{ route('ingredient-category.index') }}" class="nav-link nav-link-side {{ request()->is('meal') ? 'active' : '' }}">
-        Refeições
+        {{__('messages.sidemenu.meal')}}
       </a>
     </li>
     <li>
       <a href="{{ route('food.index') }}" class="nav-link nav-link-side {{ request()->is('foods') ? 'active' : '' }}">
-        {{__('messages.foods')}}
+        {{__('messages.sidemenu.food')}}
       </a>
     </li>
     <li>
       <a href="{{ route('food-category.index') }}" class="nav-link nav-link-side {{ request()->is('food-category') ? 'active' : '' }}">
-        {{__('messages.foods')}} - Categorias
+        {{__('messages.sidemenu.food-category')}}
       </a>
     </li>
     <li>
       <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('ingredient') ? 'active' : '' }}">
-        Ingredientes
+        {{__('messages.sidemenu.ingredient')}} 
       </a>
     </li>
     <li>
       <a href="{{ route('ingredient-category.index') }}" class="nav-link nav-link-side {{ request()->is('ingredient-category') ? 'active' : '' }}">
-        Ingredientes - Categorias
+        {{__('messages.sidemenu.ingredient-category')}}  
       </a>
     </li>
     <li>
       <a href="{{ route('ingredient.index') }}" class="nav-link nav-link-side {{ request()->is('config') ? 'active' : '' }}">
-        Configurações
+        {{__('messages.sidemenu.config')}} 
       </a>
     </li>
-    <!-- Example single danger button -->
   </div> 
 
   

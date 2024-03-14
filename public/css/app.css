@@ -251,3 +251,6 @@ body {
     max-width: 100%; /* Define a largura máxima dos elementos filhos igual à largura do contêiner pai */
     box-sizing: border-box; /* Garante que a largura dos elementos filhos inclua padding e bordas */
 }
+
+
+/* */
