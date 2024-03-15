@@ -2,22 +2,16 @@ import $ from 'jquery';
 
 $(document).ready(function() {
 
-    /* SIDE MENU */
-    // Ocultar todos os submenus no carregamento da página
-
-    $('.parent').click(function() {
-        $(this).find('.submenu').slideToggle();
-      });
-
 
     /* FOOD FORM */
-
     var includedIngredients = [];
     var foodIngredients = [];
 
     // no carregar da pagina ja carrega os ingredientes inclusos da lista principal.
     $('#includedIngredients').empty();
+
     //$('#mainIngredientList').empty();
+
     $('#mainIngredientList li').each(function() {
         var ingredientId = $(this).data('id');
         var ingredientName = $(this).text().trim();

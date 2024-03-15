@@ -5,6 +5,16 @@ return [
     'login'                  => 'Faça login para entrar',
     'OK'                     => 'OK',
 
+    /* SIDE MENU */
+    'sidemenu.config'              => 'Nome',
+    'sidemenu.ingredient-category' => 'Categorias',
+    'sidemenu.ingredient'          => 'Ingrediente',
+    'sidemenu.food-category'       => 'Categorias',
+    'sidemenu.food'                => 'Alimento',
+    'sidemenu.meal'                => 'Refeição',
+    'sidemenu.home'                => 'Inicio',
+
+
     /* Notifications */
     'success'               => 'Sucesso',
     'error'                 => 'Erro',

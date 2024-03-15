@@ -14,7 +14,6 @@ Route::get('/', function () {
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-Route::get('/greg', [App\Http\Controllers\HomeController::class, 'greg'])->name('greg')->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------

@@ -33,6 +33,10 @@ body {
     display:flex;
 }
 
+.submenu {
+    padding-left: 0!important;
+}
+
 /* NAVBAR */
 #main-navbar {
     padding-left: 20px;
@@ -44,7 +48,7 @@ body {
 #sidemenu {
     background-color: #ADBC9F; 
     max-width: 12vw;
-    min-width: 200px;
+    min-width: 240px;
     padding :30px !important;
 }
 
@@ -252,5 +256,3 @@ body {
     box-sizing: border-box; /* Garante que a largura dos elementos filhos inclua padding e bordas */
 }
 
-
-/* */
