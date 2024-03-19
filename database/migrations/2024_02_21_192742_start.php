@@ -13,12 +13,6 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('allergy_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('type_name');
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
 
         Schema::create('food_categories', function (Blueprint $table) {
             $table->id();
@@ -42,11 +36,39 @@ return new class extends Migration
         Schema::create('meals', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('title');
-            $table->text('description')->nullable();
-            $table->dateTime('meal_datetime')->nullable();
+            $table->text('notes')->nullable();
+            $table->dateTime('when');
+            $table->unsignedTinyInteger('rating')->nullable();
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('name');
+            $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('meal_tags', function (Blueprint $table) {
+            $table->unsignedBigInteger('meal_id');
+            $table->unsignedBigInteger('tag_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+            
+            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+
+
+        Schema::table('food_categories', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('foods', function (Blueprint $table) {
@@ -59,26 +81,38 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('meal_foods', function (Blueprint $table) {
+            $table->unsignedBigInteger('meal_id');
+            $table->unsignedBigInteger('food_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+            
+            $table->foreign('meal_id')->references('id')->on('meals')->onDelete('cascade');
+            $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
+            $table->integer('toxicity');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('ingredient_categories')->onDelete('cascade');
+           
             $table->timestamps();
-        });
 
-        Schema::create('allergies', function (Blueprint $table) {
+        });
+        Schema::create('food_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('allergy_level');
-            $table->unsignedBigInteger('type_id');
-            $table->foreign('type_id')->references('id')->on('allergy_types')->onDelete('cascade');
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->unsignedBigInteger('food_id');
+            $table->unsignedBigInteger('ingredient_id');
             $table->timestamps();
+
+            // Define as chaves estrangeiras
+            $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade');
+            $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
         });
     }
 
@@ -89,12 +123,16 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('allergies');
+
         Schema::dropIfExists('ingredients');
         Schema::dropIfExists('foods');
         Schema::dropIfExists('meals');
-        Schema::dropIfExists('allergy_types');
+        Schema::dropIfExists('tags');
+        Schema::dropIfExists('meal_foods');
+        Schema::dropIfExists('meal_tags');
         Schema::dropIfExists('ingredient_categories');
         Schema::dropIfExists('food_categories');
+        Schema::dropIfExists('food_ingredients');
+                
     }
 };
