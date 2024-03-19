@@ -57,4 +57,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(FoodCategory::class);
     }
+
+    // Define a relationship where a user has many meals
+    public function meals()
+    {
+        return $this->hasMany(Meal::class);
+    }
+
+    // Define a relationship where a user has many tags through meals
+    public function tags()
+    {
+        // The hasManyThrough method defines a relationship with a distant relation via an intermediate relation
+        // In this case, it allows the user to access tags associated with their meals indirectly
+        return $this->hasManyThrough(Tag::class, Meal::class);
+
+        // NOTE: $user->tags 
+    }
 }

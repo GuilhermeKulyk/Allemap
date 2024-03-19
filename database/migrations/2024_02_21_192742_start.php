@@ -100,7 +100,6 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('ingredient_categories')->onDelete('cascade');
-           
             $table->timestamps();
 
         });
