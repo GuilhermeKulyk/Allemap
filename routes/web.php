@@ -81,3 +81,5 @@ Route::post('food/search', [App\Http\Controllers\FoodController::class, 'search'
 */
 Route::resource('meal', 'App\Http\Controllers\MealController')
 ->middleware('auth');
+Route::post('meal/search', [App\Http\Controllers\FoodController::class, 'search'])
+    ->name('meal.search')->middleware('auth');

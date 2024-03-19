@@ -1,7 +1,7 @@
 // Importe o jQuery antes do Bootstrap
 
 import 'form-food-add';
-import 'sidemenu';
+
 import 'bootstrap-js';
 import 'bootstrap-css';
 

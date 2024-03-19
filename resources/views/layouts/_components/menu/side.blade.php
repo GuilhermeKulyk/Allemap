@@ -13,7 +13,7 @@
       </a>
     </li>
     <li class="nav-item {{ request()->is('meal') ? 'active' : '' }}">
-      <a href="{{ route('home') }}" class="nav-link nav-link-side">
+      <a href="{{ route('meal.index') }}" class="nav-link nav-link-side">
         {{__('messages.sidemenu.meal')}}
       </a>
     </li>
