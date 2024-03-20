@@ -18,9 +18,9 @@ class Valida
     protected $rules = [];
     protected $errors = [];
 
-    public function __construct(Request $r, string $f) // request and the current form
+    public function __construct(Request $request, string $form) // request and the current form
     {
-        $this->setConfig($r, $f); // valida ja na construção da classe
+        $this->setConfig($request, $form); // valida ja na construção da classe
     }
 
     public function setFeedback($feedback) {
@@ -46,9 +46,9 @@ class Valida
         return $this->errors;
     }
 
-    private function setConfig(Request $r, string $f): void
+    private function setConfig(Request $request, string $form): void
     {
-        switch ($f) 
+        switch ($form) 
         {
             case 'food-store':
 
@@ -83,6 +83,20 @@ class Valida
                     'max'                         => __("messages.validation.feedback.name.max"),
                     'name.min'                    => __("messages.validation.feedback.name.min"),
                 ];
+                
+            break;
+
+            case 'meal-store':
+
+                $formRules = [
+                    'title'              => 'required|string|min:3|max:255|',
+                    'notes'       => 'required|string|min:1|max:255|',
+                ];
+
+                $formFeedback = [
+                    'title.required'               => __("messages.validation.feedback.name.required"),
+                ];
+
             break;
         }
         
@@ -90,13 +104,13 @@ class Valida
         $this->setFeedback($formFeedback);
     }
 
-    public function errorCheck(Request $r)
+    public function errorCheck(Request $request)
     {
-        $v = Validator::make($r->all(), $this->getRules(), $this->getFeedback());
+        $validator = Validator::make($request->all(), $this->getRules(), $this->getFeedback());
     
-        if ($v->fails()) 
+        if ($validator->fails()) 
         {
-            $errors = $v->errors()->all();
+            $errors = $validator->errors()->all();
             $this->setErrors($errors);
 
             foreach ($errors as $error) {

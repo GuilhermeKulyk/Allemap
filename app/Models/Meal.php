@@ -23,4 +23,10 @@ class Meal extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    // Definindo o relacionamento com os alimentos (foods)
+    public function foods()
+    {
+        return $this->belongsToMany(Food::class, 'meal_foods'); // 'meal_foods' é a tabela intermediária
+    }
 }

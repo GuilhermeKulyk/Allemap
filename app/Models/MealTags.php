@@ -25,5 +25,10 @@ class MealTags extends Model
     {
         return $this->belongsTo(Tag::class);
     }
-
+        
+    // Definindo o relacionamento com os alimentos (foods)
+    public function foods()
+    {
+        return $this->belongsToMany(Food::class, 'meal_foods'); // 'meal_foods' é a tabela intermediária
+    }
 }

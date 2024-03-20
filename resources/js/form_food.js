@@ -1,7 +1,146 @@
 import $ from 'jquery';
 
 $(document).ready(function() {
+    /* MEAL FORM */
+    var includedFoods = [];
+    var mealFoods = [];
 
+    // Ao carregar a página, carrega os alimentos incluídos na lista principal.
+    $('#includedFoods').empty();
+
+    $('#mainFoodList li').each(function() {
+        var foodId = $(this).data('id');
+        var foodName = $(this).text().trim();
+        $('#includedFoods').append('<li class="list-group-item bg-success" data-id="' + foodId + '">' + foodName + '</li>');
+        
+        includedFoods.push({ id: foodId, name: foodName });
+        hideIncludedFoods(includedFoods);
+        addFood(foodId);
+    });
+
+    // Função para atualizar a lista de alimentos incluídos no modal
+    function updateIncludedFoodsModal() {
+        $('#includedFood').empty();
+        includedFoods.forEach(function(food) {
+            $('#includedFood').append('<li class="list-group-item bg-success" data-id=' + food.id + '>' + food.name + '</li>');
+        });
+    }
+
+    // Função para atualizar a lista de alimentos incluídos no formulário principal
+    function updateIncludedFoodsForm() {
+        $('#mainFoodList').empty(); // Limpa a lista de alimentos no formulário principal
+        includedFoods.forEach(function(food) {
+            $('#mainFoodList').append('<li class="list-group-item" data-id="' + food.id + '">' + food.name + '</li>');
+        });
+    }
+
+    // Função para adicionar um alimento à lista e ao formulário principal
+    function addFoodToList(food) {
+        includedFoods.push(food);
+        updateIncludedFoodsModal();
+        updateIncludedFoodsForm();
+        addFood(food.id);
+        // Adiciona o alimento ao formulário principal
+    }
+
+    // Função para adicionar o id do alimento ao array mealFoods
+    function addFood(foodId) {
+        // Verifica se o id do alimento já existe no array para evitar duplicatas
+        if (!mealFoods.includes(foodId)) {
+            mealFoods.push(foodId);
+        }
+    }
+
+    // Função para remover o id do alimento do array mealFoods
+    function removeFood(foodId) {
+        // Encontra o índice de foodId no array
+        var index = mealFoods.indexOf(foodId);
+
+        // Se foodId estiver no array, remove
+        if (index !== -1) {
+            mealFoods.splice(index, 1);
+        }
+    }
+
+    // Manipulador de eventos para clicar em alimentos na lista de resultados da pesquisa
+    $(document).on('click', '#foodList li', function() {
+        var foodId = $(this).data('id');
+        var foodName = $(this).text().trim();
+        
+        // Adiciona o alimento à lista de alimentos
+        addFoodToList({ id: foodId, name: foodName });
+        
+        $(this).hide(); // Oculta o alimento na lista de resultados da pesquisa
+        hideIncludedFoodsFromSearchResults(); 
+    });
+
+    // Manipulador de eventos para clicar em alimentos incluídos para removê-los
+    $(document).on('click', '#includedFood li', function() {
+        var foodName = $(this).text();
+        var foodId = $(this).data('id');
+        includedFoods = includedFoods.filter(function(food) {
+            return food.name !== foodName;
+        });
+        updateIncludedFoodsModal();
+        updateIncludedFoodsForm();
+        removeFood(foodId);
+        $('#foodList li:contains("' + foodName + '")').show();
+    });
+
+    // Função para ocultar os alimentos incluídos na lista de resultados da pesquisa
+    function hideIncludedFoodsFromSearchResults() {
+        includedFoods.forEach(function(food) {
+            $('#foodList li:contains("' + food.name + '")').hide();
+        });
+    }
+
+    function hideIncludedFoods() {
+        includedFoods.forEach(function(food) {
+            $('#foodList li:contains("' + food.name + '")').hide();
+        });
+    }
+
+    // Manipulador de eventos para envio do formulário
+    $('#meal-form').submit(function(event) {
+        // Previne o comportamento padrão de envio do formulário
+        event.preventDefault();
+
+        // Obtém os dados do formulário
+        var formData = $(this).serializeArray();
+        console.log('AQUI OH ' + mealFoods)
+        
+        // Adiciona os alimentos ao formData
+        formData.push({ name: "mealFoods", value: JSON.stringify(mealFoods) });
+        console.log(formData);
+        // Envia os dados via AJAX
+        $.ajax({
+            url: $(this).attr('action'), // URL especificada no atributo action do formulário
+            method: 'POST', // Método especificado no atributo method do formulário
+            data: formData, // Dados do formulário
+            success: function(response) {
+                // Se houver uma URL de redirecionamento na resposta, redirecione para ela
+                window.location.href = response.redirect_url;
+            },
+            error: function(xhr, status, error) {
+                // Trata erros de envio
+                console.error('An error occurred while sending the data:', error);
+            }
+        });  
+    }); 
+
+    // Event handler for clicking the search button
+    $('#searchButton').on('click', function() {
+        var searchText = $('#foodSearch').val().toLowerCase();
+        $('#foodList li').each(function() {
+            var foodText = $(this).text().toLowerCase();
+            if (foodText.includes(searchText)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        hideIncludedFoodsFromSearchResults();
+    });
 
     /* FOOD FORM */
     var includedIngredients = [];
@@ -9,8 +148,6 @@ $(document).ready(function() {
 
     // no carregar da pagina ja carrega os ingredientes inclusos da lista principal.
     $('#includedIngredients').empty();
-
-    //$('#mainIngredientList').empty();
 
     $('#mainIngredientList li').each(function() {
         var ingredientId = $(this).data('id');
@@ -189,9 +326,6 @@ $(document).ready(function() {
     }); 
 
     /* SIDEMENU */
-    // JavaScript
-
-
-  
+    // JavaScript 
   
 });

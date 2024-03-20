@@ -37,6 +37,10 @@ return [
     'words.cancel'           => 'Cancelar',
     'words.empty'            => 'Vazio',
     'words.success'          => 'Sucesso',
+    'words.title'            => 'Título',
+    'words.notes'            => 'Anotações',
+    'words.when'             => 'Quando',
+    'words.rating'           => 'Sua nota para a refeição',
     
 
     /* App stuff */
@@ -54,6 +58,8 @@ return [
     'food_categories'                               => 'Categorias de alimentos',
     'foods'                                         => 'Alimentos',
     'food'                                          => 'Alimento',
+    'meal'                                          => 'Refeição',
+    'add_food'          => 'Adicionar itens',
     
     /* Database */
     'category_name'                                 => 'Nome',
