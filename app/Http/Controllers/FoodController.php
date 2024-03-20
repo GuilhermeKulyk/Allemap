@@ -220,11 +220,11 @@ class FoodController extends Controller
         
         if (isset($results)) 
         {
-            return view('app.food.index', ['results' => $results]);
+            return view('app.meal.index', ['results' => $results]);
         } 
         else
         {
-            return view('app.food.index');
+            return view('app.meal.index');
         } 
     }
 

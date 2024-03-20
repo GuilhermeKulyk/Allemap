@@ -14,7 +14,7 @@
                     @foreach ($meals as $meal)
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col">{{ $meal->name }}</div>
+                                <div class="col">{{ $meal->title }}</div>
 
                                 <!-- Colunas de edição e exclusão -->
                                 <div class="col-2 text-right">

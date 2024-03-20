@@ -19,7 +19,7 @@
                 @endphp
             @endif
             
-            @component('layouts._components.search-bar', ['search' => $search, 'route' => 'food.search'])
+            @component('layouts._components.search-bar', ['search' => $search, 'route' => 'meal.search'])
             @endcomponent
 
             <a href="{{ route('meal.create') }}" class='btn small fw-light add-link text-center'>{{__("messages.words.add")}}</a>
@@ -30,7 +30,7 @@
                 $meals = [];
             }
             @endphp
-            @component('app.food._components.list', [
+            @component('app.meal._components.list', [
                 'title' =>  __('messages.words.title'),
                 'meals' => $meals,
             ])

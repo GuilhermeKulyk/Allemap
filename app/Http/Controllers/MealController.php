@@ -26,21 +26,21 @@ class MealController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() // _DONE_
     {
         $meals = DB::table('meals')
             ->where('user_id', Auth::user()->id)
             ->orderBy('when', 'desc')
             ->get()
             ->toArray(); 
-
+       
         return view('app.meal.index', compact('meals') );
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create() // _DONE_
     {
         $user = User::find(Auth::user()->id); // get user
 
@@ -53,7 +53,7 @@ class MealController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) // _DONE_
     {
         // create valida objt
         $validator = new Valida($request, 'meal-store');
@@ -122,9 +122,15 @@ class MealController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Meal $meal)
     {
-        //
+        $user = User::find(Auth::user()->id);
+
+        return view('app.meal.edit', 
+        [
+            'meal'                => $meal, 
+            'user'                => $user,
+        ]);
     }
 
     /**
@@ -132,7 +138,7 @@ class MealController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
@@ -141,5 +147,28 @@ class MealController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+        /**
+     * Search the specified resource from storage
+     * @param  \App\Meal $meal
+     * @param string $search
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request, Meal $meal) // _DONE_
+    {   
+        $search = $request->get('search');
+        $meals = $meal->where('title', 'LIKE', '%' . $search . '%')
+            ->orderBy('when','desc')
+            ->get();
+
+        if (isset($meals)) 
+        {
+            return view('app.meal.index', ['meals' => $meals]);
+        } 
+        else
+        {
+            return view('app.meal.index');
+        } 
     }
 }

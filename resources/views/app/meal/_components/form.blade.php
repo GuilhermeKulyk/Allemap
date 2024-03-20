@@ -1,7 +1,8 @@
 @php
-$errors = session('errors'); 
-session()->forget('errors');
+    $errors = session('errors'); 
+    session()->forget('errors');
 @endphp
+
 @if($errors)
 <div class="alert alert-danger" role="alert">
     @foreach($errors as $error)
@@ -39,17 +40,17 @@ session()->forget('errors');
                         </button>
                         <!-- No seu formulário principal -->    
                         <ul id="mainFoodList" class="list-group mt-2">   
-                            @if (!empty($meal->foods()))                         
+                            @if (!$meal->foods->isEmpty())                         
                                 @foreach ($meal->foods as $food)
                                     <li class="list-group-item" data-id="{{ $food->id }}">{{ $food->name }}</li>
                                 @endforeach
                             </ul>
                             @else
-                            <div class="alert alert-warning mt-3" role="alert">
-                                {{ __('messages.no_foods') }}
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                        </ul>
+                                <div class="alert alert-warning mt-3" role="alert">
+                                    {{ __('messages.no_foods') }}
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </ul>
                         @endif
 
                         <div class="form-group mb-3 mt-3">

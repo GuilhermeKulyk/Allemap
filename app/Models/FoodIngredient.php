@@ -20,7 +20,6 @@ class FoodIngredient extends Model
     public function food()
     {
         return $this->belongsTo(Food::class);
-        return $this->belongsTo('App\Models\Food', 'food_)');
     }
 
     /**

@@ -9,15 +9,18 @@ $(document).ready(function() {
     $('#includedFoods').empty();
 
     $('#mainFoodList li').each(function() {
+        console.log('teste aqui');
         var foodId = $(this).data('id');
         var foodName = $(this).text().trim();
         $('#includedFoods').append('<li class="list-group-item bg-success" data-id="' + foodId + '">' + foodName + '</li>');
         
         includedFoods.push({ id: foodId, name: foodName });
+        updateIncludedFoodsModal()
         hideIncludedFoods(includedFoods);
         addFood(foodId);
     });
 
+    console.log(includedFoods);
     // Função para atualizar a lista de alimentos incluídos no modal
     function updateIncludedFoodsModal() {
         $('#includedFood').empty();
